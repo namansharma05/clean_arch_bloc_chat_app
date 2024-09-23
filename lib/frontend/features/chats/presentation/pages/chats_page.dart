@@ -10,37 +10,43 @@ class ChatsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('inside chats page');
-    return Container(
-      decoration: BoxDecoration(
-        color: theme().scaffoldBackgroundColor,
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add_comment_rounded),
       ),
-      child: BlocBuilder<ChatsBloc, ChatsState>(
-        builder: (context, state) {
-          if (state is ChatsLoadingState) {
-            return const Center(
-              child: CupertinoActivityIndicator(),
-            );
-          } else if (state is ChatsLoadedState) {
-            return ListView.builder(
-              itemCount: state.chats.length,
-              itemBuilder: (context, index) {
-                final chat = state.chats[index];
-                return ListTile(
-                  leading: const CircleAvatar(
-                    child: Icon(Icons.person_sharp),
-                  ),
-                  title: Text(chat.chatsTitle),
-                  subtitle: Text(chat.chatsLastMessage),
-                  trailing: Text(chat.chatsLastMessageTime.toString()),
-                );
-              },
-            );
-          } else if (state is ChatsErrorState) {
-            return const SizedBox();
-          } else {
-            return const SizedBox();
-          }
-        },
+      body: Container(
+        decoration: BoxDecoration(
+          color: theme().scaffoldBackgroundColor,
+        ),
+        child: BlocBuilder<ChatsBloc, ChatsState>(
+          builder: (context, state) {
+            if (state is ChatsLoadingState) {
+              return const Center(
+                child: CupertinoActivityIndicator(),
+              );
+            } else if (state is ChatsLoadedState) {
+              return ListView.builder(
+                itemCount: state.chats.length,
+                itemBuilder: (context, index) {
+                  final chat = state.chats[index];
+                  return ListTile(
+                    leading: const CircleAvatar(
+                      child: Icon(Icons.person_sharp),
+                    ),
+                    title: Text(chat.chatsTitle),
+                    subtitle: Text(chat.chatsLastMessage),
+                    trailing: Text(chat.chatsLastMessageTime.toString()),
+                  );
+                },
+              );
+            } else if (state is ChatsErrorState) {
+              return const SizedBox();
+            } else {
+              return const SizedBox();
+            }
+          },
+        ),
       ),
     );
   }
