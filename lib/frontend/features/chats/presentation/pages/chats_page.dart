@@ -1,4 +1,6 @@
 import 'package:clean_arch_bloc_chat_app/frontend/features/chats/presentation/bloc/chats_bloc.dart';
+import 'package:clean_arch_bloc_chat_app/frontend/features/individual_chat/presentation/bloc/individual_chat_bloc.dart';
+import 'package:clean_arch_bloc_chat_app/frontend/features/individual_chat/presentation/pages/individual_chat_page.dart';
 import 'package:clean_arch_bloc_chat_app/utils/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ class ChatsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('inside chats page');
+    final individualChatBloc = BlocProvider.of<IndividualChatBloc>(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
@@ -30,13 +33,21 @@ class ChatsPage extends StatelessWidget {
                 itemCount: state.chats.length,
                 itemBuilder: (context, index) {
                   final chat = state.chats[index];
-                  return ListTile(
-                    leading: const CircleAvatar(
-                      child: Icon(Icons.person_sharp),
+                  return GestureDetector(
+                    onTap: () {
+                      individualChatBloc
+                          .add(IndividualChatFetchDataEvent(currentChat: chat));
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => IndividualChatPage()));
+                    },
+                    child: ListTile(
+                      leading: const CircleAvatar(
+                        child: Icon(Icons.person_sharp),
+                      ),
+                      title: Text(chat.chatsTitle),
+                      subtitle: Text(chat.chatsLastMessage),
+                      trailing: Text(chat.chatsLastMessageTime.toString()),
                     ),
-                    title: Text(chat.chatsTitle),
-                    subtitle: Text(chat.chatsLastMessage),
-                    trailing: Text(chat.chatsLastMessageTime.toString()),
                   );
                 },
               );

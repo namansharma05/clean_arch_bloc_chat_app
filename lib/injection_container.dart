@@ -6,6 +6,7 @@ import 'package:clean_arch_bloc_chat_app/frontend/features/home/data/repositorie
 import 'package:clean_arch_bloc_chat_app/frontend/features/home/domain/repositories/home_repository.dart';
 import 'package:clean_arch_bloc_chat_app/frontend/features/home/domain/usecases/get_all_navigation_items.dart';
 import 'package:clean_arch_bloc_chat_app/frontend/features/home/presentation/bloc/home_bloc.dart';
+import 'package:clean_arch_bloc_chat_app/frontend/features/individual_chat/presentation/bloc/individual_chat_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 final getIt = GetIt.instance;
@@ -25,4 +26,5 @@ void init() {
   // bloc
   getIt.registerFactory(() => ChatsBloc(getIt()));
   getIt.registerFactory(() => HomeBloc(getIt()));
+  getIt.registerFactory(() => IndividualChatBloc());
 }

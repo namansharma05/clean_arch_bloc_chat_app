@@ -1,6 +1,7 @@
 import 'package:clean_arch_bloc_chat_app/frontend/features/chats/presentation/bloc/chats_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/frontend/features/home/presentation/pages/home_page.dart';
+import 'package:clean_arch_bloc_chat_app/frontend/features/individual_chat/presentation/bloc/individual_chat_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/injection_container.dart';
 import 'package:clean_arch_bloc_chat_app/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,9 @@ class MyApp extends StatelessWidget {
             ..add(
               HomeGetAllNavigationItemsEvent(),
             ),
+        ),
+        BlocProvider(
+          create: (_) => IndividualChatBloc(),
         ),
       ],
       child: MaterialApp(
