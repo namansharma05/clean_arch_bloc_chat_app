@@ -4,6 +4,8 @@ class HomeEvent {}
 
 class HomeGetAllNavigationItemsEvent extends HomeEvent {}
 
-class HomeSwitchToChatsEvent extends HomeEvent {}
+class HomeSwitchTabEvent extends HomeEvent {
+  final int index;
 
-class HomeSwitchToStatusEvent extends HomeEvent {}
+  HomeSwitchTabEvent({required this.index});
+}

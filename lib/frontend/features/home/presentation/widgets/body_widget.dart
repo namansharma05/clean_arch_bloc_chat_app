@@ -1,3 +1,4 @@
+import 'package:clean_arch_bloc_chat_app/frontend/features/home/domain/entities/home_entity.dart';
 import 'package:clean_arch_bloc_chat_app/frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/utils/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +11,7 @@ class BodyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('inside body widget');
+    final homeBloc = BlocProvider.of<HomeBloc>(context);
     return Container(
       decoration: BoxDecoration(
         color: theme().scaffoldBackgroundColor,
@@ -20,7 +22,17 @@ class BodyWidget extends StatelessWidget {
             return const Center(
               child: CupertinoActivityIndicator(),
             );
-          } else if (state is HomeLoadedState) {
+          } else if (state is HomeLoadedState || state is HomeSwitchTabState) {
+            List<HomeEntity> navigationItems = [];
+            Widget? content;
+
+            if (state is HomeLoadedState) {
+              navigationItems = state.homeNavigationItems;
+            } else if (state is HomeSwitchTabState) {
+              navigationItems = state.homeNavigationItems;
+              content = state.itemWidget;
+            }
+
             return Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
@@ -28,25 +40,29 @@ class BodyWidget extends StatelessWidget {
                   const SearchBar(
                     elevation: WidgetStatePropertyAll(0),
                   ),
-                  const Expanded(
-                    child: SizedBox(),
+                  Expanded(
+                    child: content ?? const Center(child: Text('Select a Tab')),
                   ),
                   SizedBox(
                     height: 70,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.homeNavigationitems.length,
+                      itemCount: navigationItems.length,
                       itemBuilder: (context, index) {
-                        final homeNavigationItem =
-                            state.homeNavigationitems[index];
-                        return Column(
-                          children: [
-                            // icon
-                            homeNavigationItem.itemIcon,
-                            // name
-                            Text(homeNavigationItem.itemName),
-                          ],
+                        final homeNavigationItem = navigationItems[index];
+                        return GestureDetector(
+                          onTap: () {
+                            homeBloc.add(HomeSwitchTabEvent(index: index));
+                          },
+                          child: Column(
+                            children: [
+                              // icon
+                              homeNavigationItem.itemIcon,
+                              // name
+                              Text(homeNavigationItem.itemName),
+                            ],
+                          ),
                         );
                       },
                     ),

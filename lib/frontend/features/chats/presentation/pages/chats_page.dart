@@ -9,6 +9,7 @@ class ChatsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('inside chats page');
     return Container(
       decoration: BoxDecoration(
         color: theme().scaffoldBackgroundColor,

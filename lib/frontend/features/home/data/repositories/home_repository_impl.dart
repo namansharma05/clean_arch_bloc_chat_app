@@ -7,13 +7,13 @@ import 'package:flutter/material.dart';
 class HomeRepositoryImpl implements HomeRepository {
   List<HomeModel> navigationItems = [
     HomeModel(
-      itemWidget: ChatsPage(),
+      itemWidget: const ChatsPage(),
       itemIcon: Icon(Icons.chat),
       itemName: 'Chats',
       itemIndex: 1,
     ),
     HomeModel(
-      itemWidget: ChatsPage(),
+      itemWidget: const ChatsPage(),
       itemIcon: Icon(CupertinoIcons.arrow_2_circlepath_circle),
       itemName: 'Status',
       itemIndex: 2,
