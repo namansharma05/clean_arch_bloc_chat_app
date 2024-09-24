@@ -1,12 +1,12 @@
-import 'package:clean_arch_bloc_chat_app/frontend/features/chats/data/repositories/chats_repository_impl.dart';
-import 'package:clean_arch_bloc_chat_app/frontend/features/chats/domain/repositories/chats_repository.dart';
-import 'package:clean_arch_bloc_chat_app/frontend/features/chats/domain/usecases/get_all_chats.dart';
-import 'package:clean_arch_bloc_chat_app/frontend/features/chats/presentation/bloc/chats_bloc.dart';
-import 'package:clean_arch_bloc_chat_app/frontend/features/home/data/repositories/home_repository_impl.dart';
-import 'package:clean_arch_bloc_chat_app/frontend/features/home/domain/repositories/home_repository.dart';
-import 'package:clean_arch_bloc_chat_app/frontend/features/home/domain/usecases/get_all_navigation_items.dart';
-import 'package:clean_arch_bloc_chat_app/frontend/features/home/presentation/bloc/home_bloc.dart';
-import 'package:clean_arch_bloc_chat_app/frontend/features/individual_chat/presentation/bloc/individual_chat_bloc.dart';
+import 'package:clean_arch_bloc_chat_app/features/chats/data/repositories/chats_repository_impl.dart';
+import 'package:clean_arch_bloc_chat_app/features/chats/domain/repositories/chats_repository.dart';
+import 'package:clean_arch_bloc_chat_app/features/chats/domain/usecases/get_all_chats.dart';
+import 'package:clean_arch_bloc_chat_app/features/chats/presentation/bloc/chats_bloc.dart';
+import 'package:clean_arch_bloc_chat_app/features/home/data/repositories/home_repository_impl.dart';
+import 'package:clean_arch_bloc_chat_app/features/home/domain/repositories/home_repository.dart';
+import 'package:clean_arch_bloc_chat_app/features/home/domain/usecases/get_all_navigation_items.dart';
+import 'package:clean_arch_bloc_chat_app/features/home/presentation/bloc/home_bloc.dart';
+import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/bloc/individual_chat_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 final getIt = GetIt.instance;
