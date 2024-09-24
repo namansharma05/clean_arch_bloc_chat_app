@@ -14,11 +14,7 @@ class IndividualChatAppBarWidget extends StatelessWidget
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: theme().scaffoldBackgroundColor,
-      leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.arrow_back)),
+      automaticallyImplyLeading: false,
       title: BlocBuilder<IndividualChatBloc, IndividualChatState>(
         builder: (context, state) {
           if (state is IndividualChatLoadingState) {
@@ -26,16 +22,28 @@ class IndividualChatAppBarWidget extends StatelessWidget
               child: CupertinoActivityIndicator(),
             );
           } else if (state is IndividualChatLoadedState) {
-            return Row(
-              children: [
-                CircleAvatar(
-                  child: Icon(Icons.person),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(state.currentChatData.chatsTitle),
-              ],
+            return Padding(
+              padding: const EdgeInsets.all(0.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        size: 30,
+                      )),
+                  CircleAvatar(
+                    child: Icon(Icons.person),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(state.currentChatData.chatsTitle),
+                ],
+              ),
             );
           } else if (state is IndividualChatErrorState) {
             return const Center(
@@ -47,9 +55,24 @@ class IndividualChatAppBarWidget extends StatelessWidget
         },
       ),
       actions: [
-        IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.videocam)),
-        IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.phone)),
-        IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
+        IconButton(
+            onPressed: () {},
+            icon: Icon(
+              CupertinoIcons.videocam,
+              size: 30,
+            )),
+        IconButton(
+            onPressed: () {},
+            icon: Icon(
+              CupertinoIcons.phone,
+              size: 30,
+            )),
+        IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.more_vert,
+              size: 30,
+            )),
       ],
     );
   }
