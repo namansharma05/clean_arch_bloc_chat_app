@@ -8,8 +8,8 @@ import 'package:socket_io_client/socket_io_client.dart' as io;
 class ChatsListTileWidget extends StatelessWidget {
   final ChatsEntity chat;
   const ChatsListTileWidget({super.key, required this.chat});
-
-  connetToSocket() {
+  connetToSocket(BuildContext context) {
+    final individualChatBloc = BlocProvider.of<IndividualChatBloc>(context);
     final socket = io.io('http://192.168.1.8:3000/', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
@@ -28,17 +28,18 @@ class ChatsListTileWidget extends StatelessWidget {
     socket.on('message', (data) {
       print('Received message: $data');
     });
+
+    individualChatBloc
+        .add(IndividualChatConnectToSocketEvent(socket: socket, chat: chat));
   }
 
   @override
   Widget build(BuildContext context) {
-    final individualChatBloc = BlocProvider.of<IndividualChatBloc>(context);
     return GestureDetector(
       onTap: () {
-        connetToSocket();
-        individualChatBloc.add(IndividualChatFetchDataEvent(currentChat: chat));
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => IndividualChatPage()));
+        connetToSocket(context);
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const IndividualChatPage()));
       },
       child: ListTile(
         leading: const CircleAvatar(

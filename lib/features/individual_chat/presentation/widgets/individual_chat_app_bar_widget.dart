@@ -29,7 +29,7 @@ class IndividualChatAppBarWidget extends StatelessWidget
                 children: [
                   IconButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.of(context).maybePop();
                       },
                       icon: const Icon(
                         Icons.arrow_back,
@@ -38,7 +38,7 @@ class IndividualChatAppBarWidget extends StatelessWidget
                   CircleAvatar(
                     child: Icon(Icons.person),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Text(state.currentChatData.chatsTitle),

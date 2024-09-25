@@ -13,3 +13,11 @@ class IndividualChatLoadedState extends IndividualChatState {
 }
 
 class IndividualChatErrorState extends IndividualChatState {}
+
+class IndividualChatConnectToSocketState extends IndividualChatState {
+  final io.Socket socket;
+
+  IndividualChatConnectToSocketState({required this.socket});
+}
+
+class IndividualChatDisconnectFromSocketState extends IndividualChatState {}
