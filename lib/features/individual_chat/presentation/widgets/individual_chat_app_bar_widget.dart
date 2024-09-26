@@ -17,9 +17,10 @@ class IndividualChatAppBarWidget extends StatelessWidget
       automaticallyImplyLeading: false,
       title: BlocBuilder<IndividualChatBloc, IndividualChatState>(
         buildWhen: (previous, current) {
-          final currentState = current as IndividualChatLoadedState;
-          if (currentState.currentChat == null) {
-            return false;
+          if (current is IndividualChatLoadedState) {
+            if (current.currentChat == null) {
+              return false;
+            }
           }
           return true;
         },

@@ -11,6 +11,10 @@ import 'package:clean_arch_bloc_chat_app/features/individual_chat/domain/respsit
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/domain/usecases/add_new_chat_message.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/domain/usecases/get_all_chat_messages.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/bloc/individual_chat_bloc.dart';
+import 'package:clean_arch_bloc_chat_app/features/users/data/repositories/users_repository_impl.dart';
+import 'package:clean_arch_bloc_chat_app/features/users/domain/repositories/users_repository.dart';
+import 'package:clean_arch_bloc_chat_app/features/users/domain/usecases/get_all_users.dart';
+import 'package:clean_arch_bloc_chat_app/features/users/presentation/bloc/users_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 final getIt = GetIt.instance;
@@ -21,19 +25,24 @@ void init() {
   getIt.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl());
   getIt.registerLazySingleton<IndividualChatMessageRepository>(
       () => IndividualChatMessageRepositoryImpl());
+  getIt.registerLazySingleton<UsersRepository>(() => UsersRepositoryImpl());
 
   // usecases
   getIt.registerLazySingleton<GetAllChats>(
       () => GetAllChats(chatsRepository: getIt()));
   getIt.registerLazySingleton<GetAllNavigationItems>(
       () => GetAllNavigationItems(homeRepository: getIt()));
-  getIt.registerLazySingleton(
+  getIt.registerLazySingleton<GetAllChatMessages>(
       () => GetAllChatMessages(individualChatMessageRepository: getIt()));
-  getIt.registerLazySingleton(
+  getIt.registerLazySingleton<AddNewChatMessage>(
       () => AddNewChatMessage(individualChatMessageRepository: getIt()));
+  getIt.registerLazySingleton<GetAllUsers>(
+      () => GetAllUsers(usersRepository: getIt()));
 
   // bloc
-  getIt.registerFactory(() => ChatsBloc(getIt()));
-  getIt.registerFactory(() => HomeBloc(getIt()));
-  getIt.registerFactory(() => IndividualChatBloc(getIt(), getIt()));
+  getIt.registerFactory<ChatsBloc>(() => ChatsBloc(getIt()));
+  getIt.registerFactory<HomeBloc>(() => HomeBloc(getIt()));
+  getIt.registerFactory<IndividualChatBloc>(
+      () => IndividualChatBloc(getIt(), getIt()));
+  getIt.registerFactory<UsersBloc>(() => UsersBloc(getAllUsers: getIt()));
 }

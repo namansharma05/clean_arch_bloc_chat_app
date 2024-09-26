@@ -2,6 +2,8 @@ import 'package:clean_arch_bloc_chat_app/features/chats/presentation/bloc/chats_
 import 'package:clean_arch_bloc_chat_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/features/home/presentation/pages/home_page.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/bloc/individual_chat_bloc.dart';
+import 'package:clean_arch_bloc_chat_app/features/users/presentation/bloc/users_bloc.dart';
+import 'package:clean_arch_bloc_chat_app/features/users/presentation/pages/users_page.dart';
 import 'package:clean_arch_bloc_chat_app/injection_container.dart';
 import 'package:clean_arch_bloc_chat_app/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -31,14 +33,24 @@ class MyApp extends StatelessWidget {
             ),
         ),
         BlocProvider(
-          create: (_) => IndividualChatBloc(getIt(), getIt()),
+          create: (_) => IndividualChatBloc(
+            getIt(),
+            getIt(),
+          ),
+        ),
+        BlocProvider(
+          create: (_) => UsersBloc(
+            getAllUsers: getIt(),
+          )..add(
+              UsersGetAllUsersEvent(),
+            ),
         ),
       ],
       child: MaterialApp(
         title: 'Chat App',
         debugShowCheckedModeBanner: false,
         theme: theme(),
-        home: const HomePage(),
+        home: const UsersPage(),
       ),
     );
   }
