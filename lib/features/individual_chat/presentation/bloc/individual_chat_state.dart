@@ -7,9 +7,11 @@ class IndividualChatInitial extends IndividualChatState {}
 class IndividualChatLoadingState extends IndividualChatState {}
 
 class IndividualChatLoadedState extends IndividualChatState {
-  final ChatsEntity currentChatData;
+  final List<IndividualChatMessageEntity>? chatMessages;
+  final ChatsEntity? currentChat;
+  final io.Socket? socket;
 
-  IndividualChatLoadedState({required this.currentChatData});
+  IndividualChatLoadedState({this.chatMessages, this.currentChat, this.socket});
 }
 
 class IndividualChatErrorState extends IndividualChatState {}
@@ -21,3 +23,11 @@ class IndividualChatConnectToSocketState extends IndividualChatState {
 }
 
 class IndividualChatDisconnectFromSocketState extends IndividualChatState {}
+
+class IndividualChatMessageChangedState extends IndividualChatState {}
+
+class IndividualChatLoadedAppBarState extends IndividualChatState {
+  final ChatsEntity? currentChatData;
+
+  IndividualChatLoadedAppBarState({this.currentChatData});
+}

@@ -1,12 +1,19 @@
+import 'package:clean_arch_bloc_chat_app/features/individual_chat/domain/entities/individual_chat_message_entity.dart';
+import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/bloc/individual_chat_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/utils/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class IndividualChatBottomBarWidget extends StatelessWidget {
   const IndividualChatBottomBarWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController chatMessageBoxController =
+        TextEditingController();
+    final IndividualChatBloc individualChatBloc =
+        BlocProvider.of<IndividualChatBloc>(context);
     return Container(
       padding: const EdgeInsets.all(5),
       child: Row(
@@ -32,6 +39,11 @@ class IndividualChatBottomBarWidget extends StatelessWidget {
                   Expanded(
                     child: TextField(
                       // autofocus: true,
+                      controller: chatMessageBoxController,
+                      onChanged: (value) {
+                        individualChatBloc
+                            .add(IndividualChatMessageChangedEvent());
+                      },
                       decoration: InputDecoration(
                         hintText: 'Message',
                         border: InputBorder.none,
@@ -54,11 +66,12 @@ class IndividualChatBottomBarWidget extends StatelessWidget {
                             size: 30,
                           )),
                       IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.camera_alt_outlined,
-                            size: 30,
-                          )),
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.camera_alt_outlined,
+                          size: 30,
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -70,18 +83,55 @@ class IndividualChatBottomBarWidget extends StatelessWidget {
             width: 5,
           ),
           // record audio
-          Container(
-            height: 60,
-            width: 60,
-            child: Icon(
-              Icons.mic,
-              color: Colors.black,
-              size: 30,
-            ),
-            decoration: BoxDecoration(
-              color: theme().primaryColor,
-              borderRadius: BorderRadius.circular(50),
-            ),
+          BlocBuilder<IndividualChatBloc, IndividualChatState>(
+            builder: (context, state) {
+              if (chatMessageBoxController.text.isEmpty) {
+                return GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    height: 60,
+                    width: 60,
+                    child: Icon(
+                      Icons.mic,
+                      color: Colors.black,
+                      size: 30,
+                    ),
+                    decoration: BoxDecoration(
+                      color: theme().primaryColor,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
+                );
+              } else {
+                return GestureDetector(
+                  onTap: () {
+                    individualChatBloc.add(
+                      IndividualChatAddNewMessageEvent(
+                        newChatMessage: IndividualChatMessageEntity(
+                          fromMe: true,
+                          message: chatMessageBoxController.text,
+                          messageTime: DateTime.now(),
+                        ),
+                      ),
+                    );
+                    chatMessageBoxController.clear();
+                  },
+                  child: Container(
+                    height: 60,
+                    width: 60,
+                    child: Icon(
+                      Icons.send,
+                      color: Colors.black,
+                      size: 30,
+                    ),
+                    decoration: BoxDecoration(
+                      color: theme().primaryColor,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
+                );
+              }
+            },
           )
         ],
       ),

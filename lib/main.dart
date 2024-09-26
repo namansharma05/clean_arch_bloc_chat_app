@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
             ),
         ),
         BlocProvider(
-          create: (_) => IndividualChatBloc(),
+          create: (_) => IndividualChatBloc(getIt(), getIt()),
         ),
       ],
       child: MaterialApp(

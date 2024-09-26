@@ -2,11 +2,7 @@ part of 'individual_chat_bloc.dart';
 
 class IndividualChatEvent {}
 
-class IndividualChatFetchDataEvent extends IndividualChatEvent {
-  final ChatsEntity currentChat;
-
-  IndividualChatFetchDataEvent({required this.currentChat});
-}
+class IndividualChatFetchDataEvent extends IndividualChatEvent {}
 
 class IndividualChatConnectToSocketEvent extends IndividualChatEvent {
   final io.Socket socket;
@@ -17,3 +13,17 @@ class IndividualChatConnectToSocketEvent extends IndividualChatEvent {
 }
 
 class IndividualChatDisconnectFromSocketEvent extends IndividualChatEvent {}
+
+class IndividualChatAddNewMessageEvent extends IndividualChatEvent {
+  final IndividualChatMessageEntity? newChatMessage;
+
+  IndividualChatAddNewMessageEvent({this.newChatMessage});
+}
+
+class IndividualChatMessageChangedEvent extends IndividualChatEvent {}
+
+class IndividualChatLoadedAppBarEvent extends IndividualChatEvent {
+  final ChatsEntity? currentChat;
+
+  IndividualChatLoadedAppBarEvent({this.currentChat});
+}
