@@ -11,6 +11,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
   final GetAllUsers? getAllUsers;
   UsersBloc({this.getAllUsers}) : super(UsersInitial()) {
     on<UsersGetAllUsersEvent>(usersGetAllUsersEvent);
+    on<UsersSelectionEvent>(usersSelectionEvent);
   }
 
   FutureOr<void> usersGetAllUsersEvent(
@@ -18,5 +19,10 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     emit(UsersLoadingState());
     final allUsers = await getAllUsers!.call();
     emit(UsersLoadedState(allUsers: allUsers));
+  }
+
+  FutureOr<void> usersSelectionEvent(
+      UsersSelectionEvent event, Emitter<UsersState> emit) {
+    emit(UsersSelectionState(selectedUser: event.selectedUser));
   }
 }

@@ -13,3 +13,9 @@ class UsersLoadedState extends UsersState {
 }
 
 class UsersErrorState extends UsersState {}
+
+class UsersSelectionState extends UsersState {
+  final UsersEntity? selectedUser;
+
+  UsersSelectionState({this.selectedUser});
+}

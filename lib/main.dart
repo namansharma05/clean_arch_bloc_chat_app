@@ -1,6 +1,5 @@
 import 'package:clean_arch_bloc_chat_app/features/chats/presentation/bloc/chats_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/features/home/presentation/bloc/home_bloc.dart';
-import 'package:clean_arch_bloc_chat_app/features/home/presentation/pages/home_page.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/bloc/individual_chat_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/features/users/presentation/bloc/users_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/features/users/presentation/pages/users_page.dart';
