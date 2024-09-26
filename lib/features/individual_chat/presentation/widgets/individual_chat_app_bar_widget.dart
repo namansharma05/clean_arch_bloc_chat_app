@@ -16,6 +16,13 @@ class IndividualChatAppBarWidget extends StatelessWidget
       backgroundColor: theme().scaffoldBackgroundColor,
       automaticallyImplyLeading: false,
       title: BlocBuilder<IndividualChatBloc, IndividualChatState>(
+        buildWhen: (previous, current) {
+          final currentState = current as IndividualChatLoadedState;
+          if (currentState.currentChat == null) {
+            return false;
+          }
+          return true;
+        },
         builder: (context, state) {
           if (state is IndividualChatLoadedAppBarState) {
             return _buildAppBarContent(context, state);

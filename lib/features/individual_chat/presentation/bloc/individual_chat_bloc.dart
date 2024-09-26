@@ -31,7 +31,6 @@ class IndividualChatBloc
 
   Future<void> individualChatFetchDataEvent(IndividualChatFetchDataEvent event,
       Emitter<IndividualChatState> emit) async {
-    emit(IndividualChatLoadingState());
     try {
       final chatMessages = await getAllChatMessages!.call();
       emit(IndividualChatLoadedState(chatMessages: chatMessages));
@@ -75,10 +74,10 @@ class IndividualChatBloc
     return super.close();
   }
 
-  FutureOr<void> individualChatAddNewMessageEvent(
+  Future<void> individualChatAddNewMessageEvent(
       IndividualChatAddNewMessageEvent event,
-      Emitter<IndividualChatState> emit) {
-    addNewChatMessage!.call(event.newChatMessage);
+      Emitter<IndividualChatState> emit) async {
+    await addNewChatMessage!.call(event.newChatMessage);
 
     add(IndividualChatFetchDataEvent());
   }

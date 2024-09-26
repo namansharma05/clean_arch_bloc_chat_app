@@ -40,10 +40,7 @@ class IndividualChatBottomBarWidget extends StatelessWidget {
                     child: TextField(
                       // autofocus: true,
                       controller: chatMessageBoxController,
-                      onChanged: (value) {
-                        individualChatBloc
-                            .add(IndividualChatMessageChangedEvent());
-                      },
+
                       decoration: InputDecoration(
                         hintText: 'Message',
                         border: InputBorder.none,
@@ -83,56 +80,41 @@ class IndividualChatBottomBarWidget extends StatelessWidget {
             width: 5,
           ),
           // record audio
-          BlocBuilder<IndividualChatBloc, IndividualChatState>(
-            builder: (context, state) {
-              if (chatMessageBoxController.text.isEmpty) {
-                return GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    height: 60,
-                    width: 60,
-                    child: Icon(
-                      Icons.mic,
-                      color: Colors.black,
-                      size: 30,
-                    ),
-                    decoration: BoxDecoration(
-                      color: theme().primaryColor,
-                      borderRadius: BorderRadius.circular(50),
-                    ),
+          ValueListenableBuilder(
+            valueListenable: chatMessageBoxController,
+            builder: (context, value, child) {
+              final bool isEmpty = value.text.isEmpty;
+              return GestureDetector(
+                onTap: isEmpty
+                    ? () {}
+                    : () {
+                        individualChatBloc.add(
+                          IndividualChatAddNewMessageEvent(
+                            newChatMessage: IndividualChatMessageEntity(
+                              fromMe: true,
+                              message: chatMessageBoxController.text,
+                              messageTime: DateTime.now(),
+                            ),
+                          ),
+                        );
+                        chatMessageBoxController.clear();
+                      },
+                child: Container(
+                  height: 60,
+                  width: 60,
+                  child: Icon(
+                    isEmpty ? Icons.mic : Icons.send,
+                    color: Colors.black,
+                    size: 30,
                   ),
-                );
-              } else {
-                return GestureDetector(
-                  onTap: () {
-                    individualChatBloc.add(
-                      IndividualChatAddNewMessageEvent(
-                        newChatMessage: IndividualChatMessageEntity(
-                          fromMe: true,
-                          message: chatMessageBoxController.text,
-                          messageTime: DateTime.now(),
-                        ),
-                      ),
-                    );
-                    chatMessageBoxController.clear();
-                  },
-                  child: Container(
-                    height: 60,
-                    width: 60,
-                    child: Icon(
-                      Icons.send,
-                      color: Colors.black,
-                      size: 30,
-                    ),
-                    decoration: BoxDecoration(
-                      color: theme().primaryColor,
-                      borderRadius: BorderRadius.circular(50),
-                    ),
+                  decoration: BoxDecoration(
+                    color: theme().primaryColor,
+                    borderRadius: BorderRadius.circular(50),
                   ),
-                );
-              }
+                ),
+              );
             },
-          )
+          ),
         ],
       ),
     );
