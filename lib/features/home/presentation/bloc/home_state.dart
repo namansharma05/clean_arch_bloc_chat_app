@@ -7,9 +7,11 @@ class HomeInitial extends HomeState {}
 class HomeLoadingState extends HomeState {}
 
 class HomeLoadedState extends HomeState {
-  final List<HomeEntity> homeNavigationItems;
+  final Widget? initialContent;
+  final List<HomeEntity>? homeNavigationItems;
+  final UsersEntity? user;
 
-  HomeLoadedState({required this.homeNavigationItems});
+  HomeLoadedState({this.initialContent, this.homeNavigationItems, this.user});
 }
 
 class HomeErrorState extends HomeState {

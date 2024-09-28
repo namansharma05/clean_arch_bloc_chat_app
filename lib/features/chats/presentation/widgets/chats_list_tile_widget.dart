@@ -45,8 +45,8 @@ class ChatsListTileWidget extends StatelessWidget {
         leading: const CircleAvatar(
           child: Icon(Icons.person_sharp),
         ),
-        title: Text(chat.chatsTitle),
-        subtitle: Text(chat.chatsLastMessage),
+        title: Text(chat.userEntity!.name!),
+        subtitle: Text(chat.chatsLastMessage!),
         trailing: Text(chat.chatsLastMessageTime.toString()),
       ),
     );

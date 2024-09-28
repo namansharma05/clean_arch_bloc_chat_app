@@ -1,5 +1,7 @@
+import 'package:clean_arch_bloc_chat_app/features/chats/domain/entities/chats_entity.dart';
 import 'package:clean_arch_bloc_chat_app/features/home/domain/entities/home_entity.dart';
 import 'package:clean_arch_bloc_chat_app/features/home/domain/usecases/get_all_navigation_items.dart';
+import 'package:clean_arch_bloc_chat_app/features/users/domain/entities/users_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,7 +19,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       HomeGetAllNavigationItemsEvent event, Emitter<HomeState> emit) async {
     emit(HomeLoadingState());
     final homeNavigationItems = await getAllNavigationItems.call();
-    emit(HomeLoadedState(homeNavigationItems: homeNavigationItems));
+    final initialContent = homeNavigationItems[0].itemWidget;
+    emit(HomeLoadedState(
+        homeNavigationItems: homeNavigationItems,
+        initialContent: initialContent,
+        user: event.user));
   }
 
   Future<void> homeSwitchTabEvent(

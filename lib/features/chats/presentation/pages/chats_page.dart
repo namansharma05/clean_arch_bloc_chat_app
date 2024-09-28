@@ -1,5 +1,6 @@
 import 'package:clean_arch_bloc_chat_app/features/chats/presentation/bloc/chats_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/features/chats/presentation/widgets/chats_list_tile_widget.dart';
+import 'package:clean_arch_bloc_chat_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/utils/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ class ChatsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final homeBloc = BlocProvider.of<HomeBloc>(context);
     print('inside chats page');
 
     return Scaffold(
@@ -32,6 +34,11 @@ class ChatsPage extends StatelessWidget {
                 itemCount: state.chats.length,
                 itemBuilder: (context, index) {
                   final chat = state.chats[index];
+                  final currentState = homeBloc.state as HomeLoadedState;
+                  // write selected user == chat code here
+                  if (currentState.user!.id == chat.userEntity!.id) {
+                    return const SizedBox();
+                  }
                   return ChatsListTileWidget(chat: chat);
                 },
               );

@@ -27,7 +27,8 @@ class BodyWidget extends StatelessWidget {
             Widget? content;
 
             if (state is HomeLoadedState) {
-              navigationItems = state.homeNavigationItems;
+              navigationItems = state.homeNavigationItems!;
+              content = state.initialContent!;
             } else if (state is HomeSwitchTabState) {
               navigationItems = state.homeNavigationItems;
               content = state.itemWidget;
