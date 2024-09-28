@@ -4,8 +4,8 @@ import 'package:clean_arch_bloc_chat_app/features/users/domain/entities/users_en
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
-  final UsersEntity selectedUser;
-  const HomePage({super.key, required this.selectedUser});
+  final UsersEntity? selectedUser;
+  const HomePage({super.key, this.selectedUser});
 
   @override
   Widget build(BuildContext context) {
