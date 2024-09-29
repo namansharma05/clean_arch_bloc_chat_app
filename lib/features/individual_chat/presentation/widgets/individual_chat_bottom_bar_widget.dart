@@ -1,3 +1,4 @@
+import 'package:clean_arch_bloc_chat_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/domain/entities/individual_chat_message_entity.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/bloc/individual_chat_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/utils/theme/theme.dart';
@@ -10,10 +11,10 @@ class IndividualChatBottomBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final homeBloc = BlocProvider.of<HomeBloc>(context);
     final TextEditingController chatMessageBoxController =
         TextEditingController();
-    final IndividualChatBloc individualChatBloc =
-        BlocProvider.of<IndividualChatBloc>(context);
+    final individualChatBloc = BlocProvider.of<IndividualChatBloc>(context);
     return Container(
       padding: const EdgeInsets.all(5),
       child: Row(
@@ -88,13 +89,18 @@ class IndividualChatBottomBarWidget extends StatelessWidget {
                 onTap: isEmpty
                     ? () {}
                     : () {
+                        final state1 = homeBloc.state as HomeLoadedState;
+                        final state2 = individualChatBloc.state
+                            as IndividualChatLoadedState;
                         individualChatBloc.add(
-                          IndividualChatAddNewMessageEvent(
-                            newChatMessage: IndividualChatMessageEntity(
-                              fromMe: true,
-                              message: chatMessageBoxController.text,
-                              messageTime: DateTime.now(),
-                            ),
+                          IndividualChatSendMessageEvent(
+                            // newChatMessage: IndividualChatMessageEntity(
+                            //   fromMe: true,
+                            //   message: chatMessageBoxController.text,
+                            //   messageTime: DateTime.now(),
+                            // ),
+                            sourceId: state1.user!.id,
+                            targetid: state2.currentChat!.userEntity!.id,
                           ),
                         );
                         chatMessageBoxController.clear();

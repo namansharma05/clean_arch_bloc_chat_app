@@ -7,17 +7,21 @@ class IndividualChatFetchDataEvent extends IndividualChatEvent {}
 class IndividualChatConnectToSocketEvent extends IndividualChatEvent {
   final io.Socket socket;
   final ChatsEntity chat;
+  final UsersEntity? currentUser;
 
   IndividualChatConnectToSocketEvent(
-      {required this.chat, required this.socket});
+      {this.currentUser, required this.chat, required this.socket});
 }
 
 class IndividualChatDisconnectFromSocketEvent extends IndividualChatEvent {}
 
-class IndividualChatAddNewMessageEvent extends IndividualChatEvent {
+class IndividualChatSendMessageEvent extends IndividualChatEvent {
   final IndividualChatMessageEntity? newChatMessage;
+  final int? sourceId;
+  final int? targetid;
 
-  IndividualChatAddNewMessageEvent({this.newChatMessage});
+  IndividualChatSendMessageEvent(
+      {this.sourceId, this.targetid, this.newChatMessage});
 }
 
 class IndividualChatMessageChangedEvent extends IndividualChatEvent {}

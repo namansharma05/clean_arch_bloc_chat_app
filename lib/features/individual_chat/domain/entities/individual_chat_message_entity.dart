@@ -1,11 +1,11 @@
 class IndividualChatMessageEntity {
-  final String message;
-  final DateTime messageTime;
-  final bool fromMe;
+  final String? message;
+  final DateTime? messageTime;
+  final String? type;
 
   IndividualChatMessageEntity({
-    required this.fromMe,
-    required this.message,
-    required this.messageTime,
+    this.type,
+    this.message,
+    this.messageTime,
   });
 }

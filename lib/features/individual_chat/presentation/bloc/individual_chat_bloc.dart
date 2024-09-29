@@ -4,6 +4,7 @@ import 'package:clean_arch_bloc_chat_app/features/chats/domain/entities/chats_en
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/domain/entities/individual_chat_message_entity.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/domain/usecases/add_new_chat_message.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/domain/usecases/get_all_chat_messages.dart';
+import 'package:clean_arch_bloc_chat_app/features/users/domain/entities/users_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
@@ -23,7 +24,7 @@ class IndividualChatBloc
     on<IndividualChatConnectToSocketEvent>(individualChatConnectToSocketEvent);
     on<IndividualChatDisconnectFromSocketEvent>(
         individualChatDisconnectFromSocketEvent);
-    on<IndividualChatAddNewMessageEvent>(individualChatAddNewMessageEvent);
+    on<IndividualChatSendMessageEvent>(individualChatSendMessageEvent);
 
     on<IndividualChatMessageChangedEvent>(individualChatMessageChangedEvent);
     on<IndividualChatLoadedAppBarEvent>(individualChatLoadedAppBarEvent);
@@ -47,11 +48,14 @@ class IndividualChatBloc
     emit(IndividualChatLoadingState());
 
     try {
+      _socket!.emit('signin', event.currentUser!.id);
       final chatMessages = await getAllChatMessages!.call();
       emit(IndividualChatLoadedState(
-          chatMessages: chatMessages,
-          currentChat: event.chat,
-          socket: _socket!));
+        chatMessages: chatMessages,
+        currentChat: event.chat,
+        socket: _socket!,
+        currentUser: event.currentUser,
+      ));
     } catch (e) {
       emit(IndividualChatErrorState());
     }
@@ -68,15 +72,19 @@ class IndividualChatBloc
     }
   }
 
-  @override
-  Future<void> close() {
-    _socket?.disconnect();
-    return super.close();
-  }
-
-  Future<void> individualChatAddNewMessageEvent(
-      IndividualChatAddNewMessageEvent event,
+  Future<void> individualChatSendMessageEvent(
+      IndividualChatSendMessageEvent event,
       Emitter<IndividualChatState> emit) async {
+    final messageData = {
+      'sourceId': event.sourceId,
+      'targetId': event.targetid,
+      'chatMessage': {
+        'type': event.newChatMessage!.type,
+        'message': event.newChatMessage!.message,
+        'messageTime': event.newChatMessage!.messageTime!.toIso8601String(),
+      }
+    };
+    _socket!.emit('message', messageData);
     await addNewChatMessage!.call(event.newChatMessage);
 
     add(IndividualChatFetchDataEvent());
@@ -92,5 +100,11 @@ class IndividualChatBloc
       IndividualChatLoadedAppBarEvent event,
       Emitter<IndividualChatState> emit) {
     emit(IndividualChatLoadedAppBarState(currentChatData: event.currentChat));
+  }
+
+  @override
+  Future<void> close() {
+    _socket?.disconnect();
+    return super.close();
   }
 }

@@ -1,12 +1,12 @@
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/domain/entities/individual_chat_message_entity.dart';
 
 class IndividualChatMessageModel {
-  final bool? fromMe;
+  final String? type;
   final String? message;
   final DateTime? messageTime;
 
   IndividualChatMessageModel({
-    this.fromMe,
+    this.type,
     this.message,
     this.messageTime,
   });
@@ -14,7 +14,7 @@ class IndividualChatMessageModel {
   factory IndividualChatMessageModel.fromEntity(
       IndividualChatMessageEntity chatEntity) {
     return IndividualChatMessageModel(
-      fromMe: chatEntity.fromMe,
+      type: chatEntity.type,
       message: chatEntity.message,
       messageTime: chatEntity.messageTime,
     );
@@ -22,7 +22,7 @@ class IndividualChatMessageModel {
 
   IndividualChatMessageEntity toEntity() {
     return IndividualChatMessageEntity(
-      fromMe: fromMe!,
+      type: type!,
       message: message!,
       messageTime: messageTime!,
     );

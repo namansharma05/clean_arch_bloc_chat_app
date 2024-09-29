@@ -1,4 +1,5 @@
 import 'package:clean_arch_bloc_chat_app/features/chats/domain/entities/chats_entity.dart';
+import 'package:clean_arch_bloc_chat_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/bloc/individual_chat_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/pages/individual_chat_page.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ class ChatsListTileWidget extends StatelessWidget {
   const ChatsListTileWidget({super.key, required this.chat});
   connetToSocket(BuildContext context) {
     final individualChatBloc = BlocProvider.of<IndividualChatBloc>(context);
+    final homeBloc = BlocProvider.of<HomeBloc>(context);
     final socket = io.io('http://192.168.1.8:3000/', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
@@ -19,36 +21,29 @@ class ChatsListTileWidget extends StatelessWidget {
 
     socket.onConnect((_) {
       print('Connected to the socket server');
+      socket.on("message", (msg) {
+        print(msg);
+      });
     });
-
-    socket.onDisconnect((_) {
-      print('Disconnected from the socket server');
-    });
-
-    socket.on('message', (data) {
-      print('Received message: $data');
-    });
-
-    individualChatBloc
-        .add(IndividualChatConnectToSocketEvent(socket: socket, chat: chat));
+    final homeState = homeBloc.state as HomeLoadedState;
+    individualChatBloc.add(IndividualChatConnectToSocketEvent(
+        socket: socket, chat: chat, currentUser: homeState.user));
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return ListTile(
+      leading: const CircleAvatar(
+        child: Icon(Icons.person_sharp),
+      ),
+      title: Text(chat.userEntity!.name!),
+      subtitle: Text(chat.chatsLastMessage!),
+      trailing: Text(chat.chatsLastMessageTime.toString()),
       onTap: () {
         connetToSocket(context);
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => const IndividualChatPage()));
       },
-      child: ListTile(
-        leading: const CircleAvatar(
-          child: Icon(Icons.person_sharp),
-        ),
-        title: Text(chat.userEntity!.name!),
-        subtitle: Text(chat.chatsLastMessage!),
-        trailing: Text(chat.chatsLastMessageTime.toString()),
-      ),
     );
   }
 }

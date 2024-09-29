@@ -6,27 +6,27 @@ class IndividualChatMessageRepositoryImpl
     implements IndividualChatMessageRepository {
   List<IndividualChatMessageModel> chatMessages = [
     IndividualChatMessageModel(
-      fromMe: true,
+      type: "Source",
       message: 'Hi',
       messageTime: DateTime.now(),
     ),
     IndividualChatMessageModel(
-      fromMe: false,
+      type: "Target",
       message: 'Hello',
       messageTime: DateTime.now(),
     ),
     IndividualChatMessageModel(
-      fromMe: true,
+      type: "Source",
       message: 'How are you?',
       messageTime: DateTime.now(),
     ),
     IndividualChatMessageModel(
-      fromMe: false,
+      type: "Target",
       message: 'I am fine. How are you?',
       messageTime: DateTime.now(),
     ),
     IndividualChatMessageModel(
-      fromMe: true,
+      type: "Source",
       message: 'I am also fine.',
       messageTime: DateTime.now(),
     ),

@@ -10,8 +10,10 @@ class IndividualChatLoadedState extends IndividualChatState {
   final List<IndividualChatMessageEntity>? chatMessages;
   final ChatsEntity? currentChat;
   final io.Socket? socket;
+  final UsersEntity? currentUser;
 
-  IndividualChatLoadedState({this.chatMessages, this.currentChat, this.socket});
+  IndividualChatLoadedState(
+      {this.currentUser, this.chatMessages, this.currentChat, this.socket});
 }
 
 class IndividualChatErrorState extends IndividualChatState {}
