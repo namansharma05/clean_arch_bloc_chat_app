@@ -1,9 +1,11 @@
+import 'package:clean_arch_bloc_chat_app/features/individual_chat/domain/entities/individual_chat_message_entity.dart';
 import 'package:clean_arch_bloc_chat_app/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ReplyMessageBox extends StatelessWidget {
-  const ReplyMessageBox({super.key});
+  final IndividualChatMessageEntity? chatMessage;
+  const ReplyMessageBox({super.key, this.chatMessage});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class ReplyMessageBox extends StatelessWidget {
                   bottom: 20,
                 ),
                 child: Text(
-                  'This is a message send by the sender',
+                  '${chatMessage!.message}',
                   style: TextStyle(fontSize: 16),
                 ),
               ),
@@ -38,7 +40,7 @@ class ReplyMessageBox extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        "20:29",
+                        "${chatMessage!.messageTime!.hour}:${chatMessage!.messageTime!.minute}",
                         style: TextStyle(
                             fontSize: 13, color: Colors.grey.shade600),
                       ),

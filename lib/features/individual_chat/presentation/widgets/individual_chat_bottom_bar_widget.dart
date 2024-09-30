@@ -1,3 +1,4 @@
+import 'package:clean_arch_bloc_chat_app/features/chats/presentation/bloc/chats_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/domain/entities/individual_chat_message_entity.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/bloc/individual_chat_bloc.dart';
@@ -7,14 +8,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class IndividualChatBottomBarWidget extends StatelessWidget {
-  const IndividualChatBottomBarWidget({super.key});
+  IndividualChatBottomBarWidget({super.key});
+  final TextEditingController chatMessageBoxController =
+      TextEditingController();
+  sendMessage(chatsBloc, homeBloc, individualChatBloc) {
+    final state1 = homeBloc.state as HomeLoadedState;
+    final state2 = individualChatBloc.state as IndividualChatLoadedState;
+    individualChatBloc.add(
+      IndividualChatSendMessageEvent(
+        currentChat: state2.currentChat,
+        currentUser: state1.user,
+        newChatMessage: IndividualChatMessageEntity(
+          type: 'Source',
+          message: chatMessageBoxController.text,
+          messageTime: DateTime.now(),
+        ),
+        sourceId: state1.user!.id,
+        targetid: state2.currentChat!.userEntity!.id,
+      ),
+    );
+    chatMessageBoxController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
     final homeBloc = BlocProvider.of<HomeBloc>(context);
-    final TextEditingController chatMessageBoxController =
-        TextEditingController();
     final individualChatBloc = BlocProvider.of<IndividualChatBloc>(context);
+    final chatsBloc = BlocProvider.of<ChatsBloc>(context);
     return Container(
       padding: const EdgeInsets.all(5),
       child: Row(
@@ -89,21 +109,7 @@ class IndividualChatBottomBarWidget extends StatelessWidget {
                 onTap: isEmpty
                     ? () {}
                     : () {
-                        final state1 = homeBloc.state as HomeLoadedState;
-                        final state2 = individualChatBloc.state
-                            as IndividualChatLoadedState;
-                        individualChatBloc.add(
-                          IndividualChatSendMessageEvent(
-                            // newChatMessage: IndividualChatMessageEntity(
-                            //   fromMe: true,
-                            //   message: chatMessageBoxController.text,
-                            //   messageTime: DateTime.now(),
-                            // ),
-                            sourceId: state1.user!.id,
-                            targetid: state2.currentChat!.userEntity!.id,
-                          ),
-                        );
-                        chatMessageBoxController.clear();
+                        sendMessage(chatsBloc, homeBloc, individualChatBloc);
                       },
                 child: Container(
                   height: 60,

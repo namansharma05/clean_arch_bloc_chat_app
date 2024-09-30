@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
           create: (_) => IndividualChatBloc(
             getIt(),
             getIt(),
+            getIt(),
           ),
         ),
         BlocProvider(

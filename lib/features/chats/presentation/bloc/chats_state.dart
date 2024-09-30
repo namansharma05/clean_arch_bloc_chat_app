@@ -13,3 +13,9 @@ class ChatsLoadedState extends ChatsState {
 }
 
 class ChatsErrorState extends ChatsState {}
+
+class ChatsCurrentChatState extends ChatsState {
+  final ChatsEntity? currentChat;
+
+  ChatsCurrentChatState({this.currentChat});
+}

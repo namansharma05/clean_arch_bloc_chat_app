@@ -11,15 +11,23 @@ class IndividualChatBodyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<IndividualChatBloc, IndividualChatState>(
       builder: (context, state) {
+        print('inside individual chat body widget');
         if (state is IndividualChatLoadedState) {
+          print('inside state is individual chat loaded state');
+          print(
+              'chat messages length: ${state.chatMessages!.length.toString()}');
           return ListView.builder(
-            itemCount: state.chatMessages?.length ?? 0,
+            itemCount: state.chatMessages!.length,
             itemBuilder: (context, index) {
               final chatMessage = state.chatMessages![index];
               if (chatMessage.type == "Source") {
-                return OwnMessageBox();
+                return OwnMessageBox(
+                  chatMessage: chatMessage,
+                );
               } else {
-                return ReplyMessageBox();
+                return ReplyMessageBox(
+                  chatMessage: chatMessage,
+                );
               }
               // return Container(
               //   decoration: BoxDecoration(

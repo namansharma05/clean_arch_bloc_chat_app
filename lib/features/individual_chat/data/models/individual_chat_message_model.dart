@@ -11,6 +11,14 @@ class IndividualChatMessageModel {
     this.messageTime,
   });
 
+  factory IndividualChatMessageModel.fromJson(Map<String, dynamic> json) {
+    return IndividualChatMessageModel(
+      type: json['type'],
+      message: json['message'],
+      messageTime: json['messageTime'],
+    );
+  }
+
   factory IndividualChatMessageModel.fromEntity(
       IndividualChatMessageEntity chatEntity) {
     return IndividualChatMessageModel(
@@ -25,6 +33,15 @@ class IndividualChatMessageModel {
       type: type!,
       message: message!,
       messageTime: messageTime!,
+    );
+  }
+
+  IndividualChatMessageEntity jsonToEntity(Map<String, dynamic> json) {
+    print('inside individual chat message model json to entity');
+    return IndividualChatMessageEntity(
+      type: json['type'],
+      message: json['message'],
+      messageTime: DateTime.parse(json['messageTime']),
     );
   }
 }

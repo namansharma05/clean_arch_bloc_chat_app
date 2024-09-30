@@ -12,6 +12,14 @@ class ChatsModel {
     this.chatsLastMessageTime,
   });
 
+  factory ChatsModel.fromJson(Map<String, dynamic> json) {
+    return ChatsModel(
+      usersEntity: json['usersEntity'],
+      chatsLastMessage: json['chatsLastMessage'],
+      chatsLastMessageTime: json['chatsLastMessageTime'],
+    );
+  }
+
   factory ChatsModel.fromEntity(ChatsEntity chatsEntity) {
     return ChatsModel(
       usersEntity: chatsEntity.userEntity,

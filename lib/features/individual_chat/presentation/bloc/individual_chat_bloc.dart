@@ -1,10 +1,14 @@
 import 'dart:async';
 
 import 'package:clean_arch_bloc_chat_app/features/chats/domain/entities/chats_entity.dart';
+import 'package:clean_arch_bloc_chat_app/features/chats/presentation/bloc/chats_bloc.dart';
+import 'package:clean_arch_bloc_chat_app/features/home/presentation/bloc/home_bloc.dart';
+import 'package:clean_arch_bloc_chat_app/features/individual_chat/data/models/individual_chat_message_model.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/domain/entities/individual_chat_message_entity.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/domain/usecases/add_new_chat_message.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/domain/usecases/get_all_chat_messages.dart';
 import 'package:clean_arch_bloc_chat_app/features/users/domain/entities/users_entity.dart';
+import 'package:clean_arch_bloc_chat_app/injection_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
@@ -17,8 +21,12 @@ class IndividualChatBloc
 
   final GetAllChatMessages? getAllChatMessages;
   final AddNewChatMessage? addNewChatMessage;
+  final IndividualChatMessageModel? individualChatMessageModel;
 
-  IndividualChatBloc(this.getAllChatMessages, this.addNewChatMessage)
+  final homeBloc = HomeBloc(getIt());
+
+  IndividualChatBloc(this.getAllChatMessages, this.addNewChatMessage,
+      this.individualChatMessageModel)
       : super(IndividualChatInitial()) {
     on<IndividualChatFetchDataEvent>(individualChatFetchDataEvent);
     on<IndividualChatConnectToSocketEvent>(individualChatConnectToSocketEvent);
@@ -28,12 +36,16 @@ class IndividualChatBloc
 
     on<IndividualChatMessageChangedEvent>(individualChatMessageChangedEvent);
     on<IndividualChatLoadedAppBarEvent>(individualChatLoadedAppBarEvent);
+    on<IndividualChatAddNewMessageEvent>(individualChatAddNewMessageEvent);
   }
 
   Future<void> individualChatFetchDataEvent(IndividualChatFetchDataEvent event,
       Emitter<IndividualChatState> emit) async {
     try {
+      print('inside individual chat fetch data event');
       final chatMessages = await getAllChatMessages!.call();
+      print(
+          'chatmessages length inside in individual chat fetch data event is: ${chatMessages.length}');
       emit(IndividualChatLoadedState(chatMessages: chatMessages));
     } catch (e) {
       emit(IndividualChatErrorState());
@@ -86,8 +98,13 @@ class IndividualChatBloc
     };
     _socket!.emit('message', messageData);
     await addNewChatMessage!.call(event.newChatMessage);
-
-    add(IndividualChatFetchDataEvent());
+    final chatMessages = await getAllChatMessages!.call();
+    emit(IndividualChatLoadedState(
+      chatMessages: chatMessages,
+      currentChat: event.currentChat,
+      socket: _socket!,
+      currentUser: event.currentUser,
+    ));
   }
 
   FutureOr<void> individualChatMessageChangedEvent(
@@ -100,6 +117,31 @@ class IndividualChatBloc
       IndividualChatLoadedAppBarEvent event,
       Emitter<IndividualChatState> emit) {
     emit(IndividualChatLoadedAppBarState(currentChatData: event.currentChat));
+  }
+
+  Future<void> individualChatAddNewMessageEvent(
+      IndividualChatAddNewMessageEvent event,
+      Emitter<IndividualChatState> emit) async {
+    print(
+        'event.jsonReceivedMessage.type is: ${event.jsonReceivedMessage!['type']}');
+    print(
+        'event.jsonReceivedMessage.message is: ${event.jsonReceivedMessage!['message']}');
+    print(
+        'event.jsonReceivedMessage.messageTime is: ${event.jsonReceivedMessage!['messageTime']}');
+    final receivedMessage =
+        individualChatMessageModel!.jsonToEntity(event.jsonReceivedMessage!);
+    print('received message type is ${receivedMessage.type}');
+    print('received message is ${receivedMessage.message}');
+    print('received messagetime is ${receivedMessage.messageTime}');
+    await addNewChatMessage!.call(receivedMessage);
+    print('after adding new chat message');
+    final chatMessages = await getAllChatMessages!.call();
+    emit(IndividualChatLoadedState(
+      chatMessages: chatMessages,
+      currentChat: event.currentChat,
+      socket: _socket!,
+      currentUser: event.currentUser,
+    ));
   }
 
   @override

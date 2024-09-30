@@ -33,15 +33,22 @@ class IndividualChatMessageRepositoryImpl
   ];
   @override
   Future<List<IndividualChatMessageEntity>> getAllChatMessages() async {
-    final result = chatMessages
-        .map((individualChatMessage) => individualChatMessage.toEntity())
-        .toList();
+    final result = chatMessages.map((individualChatMessage) {
+      // print(individualChatMessage.runtimeType);
+      print('individual chat message type is: ${individualChatMessage.type}');
+      print('individual chat message is: ${individualChatMessage.message}');
+      print(
+          'individual chat messagetime is: ${individualChatMessage.messageTime}');
+      return individualChatMessage.toEntity();
+    }).toList();
     return result;
   }
 
   @override
   Future<void> addNewChatMessage(
       IndividualChatMessageEntity? newChatMessage) async {
+    print('inside add new chat message');
     chatMessages.add(IndividualChatMessageModel.fromEntity(newChatMessage!));
+    chatMessages.forEach(print);
   }
 }

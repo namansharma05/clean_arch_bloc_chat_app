@@ -6,6 +6,7 @@ import 'package:clean_arch_bloc_chat_app/features/home/data/repositories/home_re
 import 'package:clean_arch_bloc_chat_app/features/home/domain/repositories/home_repository.dart';
 import 'package:clean_arch_bloc_chat_app/features/home/domain/usecases/get_all_navigation_items.dart';
 import 'package:clean_arch_bloc_chat_app/features/home/presentation/bloc/home_bloc.dart';
+import 'package:clean_arch_bloc_chat_app/features/individual_chat/data/models/individual_chat_message_model.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/data/repositories/individual_chat_message_repository_impl.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/domain/respsitories/individual_chat_message_repository.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/domain/usecases/add_new_chat_message.dart';
@@ -20,6 +21,10 @@ import 'package:get_it/get_it.dart';
 final getIt = GetIt.instance;
 
 void init() {
+  // models
+  getIt.registerLazySingleton<IndividualChatMessageModel>(
+      () => IndividualChatMessageModel());
+
   // repositories
   getIt.registerLazySingleton<ChatsRepository>(() => ChatsRepositoryImpl());
   getIt.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl());
@@ -43,6 +48,6 @@ void init() {
   getIt.registerFactory<ChatsBloc>(() => ChatsBloc(getIt()));
   getIt.registerFactory<HomeBloc>(() => HomeBloc(getIt()));
   getIt.registerFactory<IndividualChatBloc>(
-      () => IndividualChatBloc(getIt(), getIt()));
+      () => IndividualChatBloc(getIt(), getIt(), getIt()));
   getIt.registerFactory<UsersBloc>(() => UsersBloc(getAllUsers: getIt()));
 }
