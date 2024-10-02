@@ -1,0 +1,38 @@
+[
+	{
+		"_id": 1,
+		"_firstName": "Lynnell",
+		"_lastName": "Sillett",
+		"_phone": "+33 689 210 9414",
+		"_imageUrl": "http://dummyimage.com/145x100.png/ff4444/ffffff",
+		"_lastOnline": "24/02/2024",
+		"_status": "In est risus, auctor sed, tristique in, tempus sit amet, sem."
+	},
+	{
+		"_id": 2,
+		"_firstName": "Diann",
+		"_lastName": "Perryn",
+		"_phone": "+380 565 985 4565",
+		"_imageUrl": "http://dummyimage.com/160x100.png/cc0000/ffffff",
+		"_lastOnline": "26/07/2024",
+		"_status": "Nulla tellus."
+	},
+	{
+		"_id": 3,
+		"_firstName": "Minne",
+		"_lastName": "Lowrie",
+		"_phone": "+216 903 879 1852",
+		"_imageUrl": "http://dummyimage.com/181x100.png/ff4444/ffffff",
+		"_lastOnline": "23/11/2023",
+		"_status": "Cras in purus eu magna vulputate luctus."
+	},
+	{
+		"_id": 4,
+		"_firstName": "Joanne",
+		"_lastName": "Dimitresco",
+		"_phone": "+86 531 723 1511",
+		"_imageUrl": "http://dummyimage.com/211x100.png/5fa2dd/ffffff",
+		"_lastOnline": "12/08/2024",
+		"_status": "Donec ut dolor."
+	}
+]
