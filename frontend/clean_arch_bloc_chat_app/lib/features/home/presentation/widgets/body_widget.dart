@@ -1,12 +1,14 @@
 import 'package:clean_arch_bloc_chat_app/features/home/domain/entities/home_entity.dart';
 import 'package:clean_arch_bloc_chat_app/features/home/presentation/bloc/home_bloc.dart';
+import 'package:clean_arch_bloc_chat_app/features/users/domain/entities/users_entity.dart';
 import 'package:clean_arch_bloc_chat_app/utils/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BodyWidget extends StatelessWidget {
-  const BodyWidget({super.key});
+  final UsersEntity? selectedUser;
+  const BodyWidget({super.key, this.selectedUser});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,8 @@ class BodyWidget extends StatelessWidget {
                         final homeNavigationItem = navigationItems[index];
                         return GestureDetector(
                           onTap: () {
-                            homeBloc.add(HomeSwitchTabEvent(index: index));
+                            homeBloc.add(HomeSwitchTabEvent(
+                                user: selectedUser, index: index));
                           },
                           child: Column(
                             children: [

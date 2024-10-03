@@ -6,7 +6,7 @@ class GetAllChats {
 
   GetAllChats({required this.chatsRepository});
 
-  Future<List<ChatsEntity>> call() {
-    return chatsRepository.getAllChats();
+  Future<List<ChatsEntity>> call(int? userId) {
+    return chatsRepository.getAllChats(userId);
   }
 }

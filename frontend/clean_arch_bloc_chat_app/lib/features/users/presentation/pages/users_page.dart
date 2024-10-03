@@ -25,6 +25,7 @@ class UsersPage extends StatelessWidget {
                   leading: const CircleAvatar(child: Icon(Icons.person)),
                   title: Text("${user.firstName!} ${user.lastName}"),
                   onTap: () {
+                    // print(user);
                     homeBloc.add(HomeGetAllNavigationItemsEvent(user: user));
                     Navigator.push(
                         context,

@@ -24,8 +24,7 @@ class IndividualChatBottomBarWidget extends StatelessWidget {
           messageTime: DateTime.now(),
         ),
         sourceId: state1.user!.id,
-        // targetid: state2.currentChat!.userEntity!.id,
-        targetid: 2,
+        targetid: state2.currentChat!.id,
       ),
     );
     chatMessageBoxController.clear();

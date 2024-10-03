@@ -18,6 +18,11 @@ class UsersEntity {
     this.status,
     this.chats,
   });
+
+  @override
+  String toString() {
+    return 'User{id: $id, firstName: $firstName, lastName: $lastName, phone: $phone}, imageUrl: $imageUrl, lastOnline: $lastOnline, status: $status, chats: $chats';
+  }
 }
 
 class Connections {

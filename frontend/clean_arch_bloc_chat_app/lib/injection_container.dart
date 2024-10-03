@@ -45,8 +45,8 @@ void init() {
       () => GetAllUsers(usersRepository: getIt()));
 
   // bloc
-  getIt.registerFactory<ChatsBloc>(() => ChatsBloc(getIt()));
-  getIt.registerFactory<HomeBloc>(() => HomeBloc(getIt()));
+  getIt.registerFactory<ChatsBloc>(() => ChatsBloc(getIt(), getIt()));
+  getIt.registerFactory<HomeBloc>(() => HomeBloc(getIt(), getIt()));
   getIt.registerFactory<IndividualChatBloc>(
       () => IndividualChatBloc(getIt(), getIt(), getIt()));
   getIt.registerFactory<UsersBloc>(() => UsersBloc(getAllUsers: getIt()));

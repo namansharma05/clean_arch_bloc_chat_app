@@ -22,7 +22,7 @@ class IndividualChatBloc
   final AddNewChatMessage? addNewChatMessage;
   final IndividualChatMessageModel? individualChatMessageModel;
 
-  final homeBloc = HomeBloc(getIt());
+  final homeBloc = HomeBloc(getIt(), getIt());
 
   IndividualChatBloc(this.getAllChatMessages, this.addNewChatMessage,
       this.individualChatMessageModel)

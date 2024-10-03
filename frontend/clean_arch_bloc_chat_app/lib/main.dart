@@ -23,13 +23,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => ChatsBloc(
             getIt(),
-          )..add(ChatsGetAllEvent()),
+            getIt(),
+          ),
         ),
         BlocProvider(
-          create: (_) => HomeBloc(getIt())
-            ..add(
-              HomeGetAllNavigationItemsEvent(),
-            ),
+          create: (_) => HomeBloc(getIt(), getIt()),
         ),
         BlocProvider(
           create: (_) => IndividualChatBloc(

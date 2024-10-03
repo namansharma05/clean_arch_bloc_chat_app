@@ -10,6 +10,7 @@ class HomeGetAllNavigationItemsEvent extends HomeEvent {
 
 class HomeSwitchTabEvent extends HomeEvent {
   final int index;
+  final UsersEntity? user;
 
-  HomeSwitchTabEvent({required this.index});
+  HomeSwitchTabEvent({this.user, required this.index});
 }
