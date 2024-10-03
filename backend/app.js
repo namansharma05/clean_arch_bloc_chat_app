@@ -4,12 +4,15 @@ const express = require("express");
 const dummyUserModel = require("./MOCK_DATA.json");
 const http = require("http");
 const app = express();
+const cors = require("cors");
 
 const PORT = process.env.PORT || 3000;
 const server = http.createServer(app);
 var io = require("socket.io")(server);
 
 app.use(express.json());
+app.use(cors());
+
 const { MongoClient, ServerApiVersion } = require("mongodb");
 
 const uri =
@@ -40,20 +43,20 @@ io.on("connection", (socket) => {
 	});
 });
 
-app.post("/add-item", async (req, res) => {
+app.post("/add-users", async (req, res) => {
 	try {
 		const db = client.db(dbName);
 		const collection = db.collection(collectionName);
 
 		dummyUserModel.map(async (userModel) => {
 			const newUserData = {
-				_id: userModel["_id"],
-				_first_name: userModel["_firstName"],
-				_last_name: userModel["_lastName"],
-				_phone: userModel["_phone"],
-				_imageUrl: userModel["_imageUrl"],
-				_lastOnline: userModel["_lastOnline"],
-				_status: userModel["_status"],
+				id: userModel["id"],
+				firstName: userModel["firstName"],
+				lastName: userModel["lastName"],
+				phone: userModel["phone"],
+				imageUrl: userModel["imageUrl"],
+				lastOnline: userModel["lastOnline"],
+				status: userModel["status"],
 			};
 
 			await collection.insertOne(newUserData);
@@ -67,7 +70,7 @@ app.post("/add-item", async (req, res) => {
 	}
 });
 
-app.get("/get-user", async (req, res) => {
+app.get("/get-users", async (req, res) => {
 	try {
 		const db = client.db(dbName);
 		const collection = db.collection(collectionName);
@@ -90,7 +93,7 @@ async function connectToDb() {
 	console.log(res);
 }
 
-server.listen(PORT, () => {
+server.listen(PORT, "0.0.0.0", () => {
 	connectToDb();
 	console.log(`server is running at `, PORT);
 });
