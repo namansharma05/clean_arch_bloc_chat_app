@@ -57,6 +57,7 @@ app.post("/add-users", async (req, res) => {
 				imageUrl: userModel["imageUrl"],
 				lastOnline: userModel["lastOnline"],
 				status: userModel["status"],
+				chats: userModel["chats"],
 			};
 
 			await collection.insertOne(newUserData);

@@ -16,7 +16,7 @@ class UsersRepositoryImpl implements UsersRepository {
       jsonData["result"].forEach((item) {
         // print(item);
         final userModel = UsersModel.fromJson(item);
-        print(userModel);
+        print(userModel.chats.runtimeType);
         result.add(userModel);
       });
       return result;
