@@ -25,7 +25,6 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
     print("user id: ${event.user!.id}");
     final chats = await getAllChats!.call(event.user!.id);
     // print(chats);
-
     emit(ChatsLoadedState(chats: chats));
   }
 

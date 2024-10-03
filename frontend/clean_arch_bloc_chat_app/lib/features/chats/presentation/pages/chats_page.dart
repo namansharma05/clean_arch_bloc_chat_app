@@ -27,6 +27,7 @@ class ChatsPage extends StatelessWidget {
         ),
         child: BlocBuilder<ChatsBloc, ChatsState>(
           builder: (context, state) {
+            print('inside chats page state is: $state');
             if (state is ChatsLoadingState) {
               return const Center(
                 child: CupertinoActivityIndicator(),

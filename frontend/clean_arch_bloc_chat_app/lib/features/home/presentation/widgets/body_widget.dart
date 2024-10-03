@@ -1,5 +1,6 @@
-import 'package:clean_arch_bloc_chat_app/features/home/domain/entities/home_entity.dart';
-import 'package:clean_arch_bloc_chat_app/features/home/presentation/bloc/home_bloc.dart';
+import 'package:clean_arch_bloc_chat_app/features/chats/domain/entities/chats_entity.dart';
+import 'package:clean_arch_bloc_chat_app/features/chats/presentation/bloc/chats_bloc.dart'; // Import ChatsBloc
+import 'package:clean_arch_bloc_chat_app/features/chats/presentation/widgets/chats_list_tile_widget.dart';
 import 'package:clean_arch_bloc_chat_app/features/users/domain/entities/users_entity.dart';
 import 'package:clean_arch_bloc_chat_app/utils/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,81 +9,76 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BodyWidget extends StatelessWidget {
   final UsersEntity? selectedUser;
-  const BodyWidget({super.key, this.selectedUser});
+  final int? currentIndex;
+  const BodyWidget({super.key, this.selectedUser, this.currentIndex});
 
   @override
   Widget build(BuildContext context) {
-    print('inside body widget');
-    final homeBloc = BlocProvider.of<HomeBloc>(context);
-    return Container(
-      decoration: BoxDecoration(
-        color: theme().scaffoldBackgroundColor,
-      ),
-      child: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          if (state is HomeLoadingState) {
-            return const Center(
-              child: CupertinoActivityIndicator(),
-            );
-          } else if (state is HomeLoadedState || state is HomeSwitchTabState) {
-            List<HomeEntity> navigationItems = [];
-            Widget? content;
+    if (currentIndex == 0) {
+      final chatsBloc = BlocProvider.of<ChatsBloc>(context);
 
-            if (state is HomeLoadedState) {
-              navigationItems = state.homeNavigationItems!;
-              content = state.initialContent!;
-            } else if (state is HomeSwitchTabState) {
-              navigationItems = state.homeNavigationItems;
-              content = state.itemWidget;
-            }
+      return Stack(
+        children: [
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: FloatingActionButton(
+              onPressed: () {},
+              child: const Icon(Icons.add_comment_rounded),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: theme().scaffoldBackgroundColor,
+            ),
+            child: BlocBuilder<ChatsBloc, ChatsState>(
+              builder: (context, state) {
+                print('inside chats page state is: $state');
+                if (state is ChatsLoadingState) {
+                  return const Center(
+                    child: CupertinoActivityIndicator(),
+                  );
+                } else if (state is ChatsLoadedState) {
+                  return ListView.builder(
+                    itemCount: state.chats.length,
+                    itemBuilder: (context, index) {
+                      final chat = state.chats[index];
+                      // final currentState = homeBloc.state as HomeLoadedState;
+                      // // write selected user == chat code here
+                      // if (currentState.user!.id == chat.id) {
+                      //   return const SizedBox();
+                      // }
+                      return ChatsListTileWidget(chat: chat);
+                    },
+                  );
+                } else if (state is ChatsErrorState) {
+                  return const SizedBox();
+                } else {
+                  return const SizedBox();
+                }
+              },
+            ),
+          ),
+        ],
+      );
+    } else if (currentIndex == 1) {
+      return const Center(child: Text('Status Page'));
+    } else {
+      return const Center(child: Text('Calls Page'));
+    }
+  }
 
-            return Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                children: [
-                  const SearchBar(
-                    elevation: WidgetStatePropertyAll(0),
-                  ),
-                  Expanded(
-                    child: content ?? const Center(child: Text('Select a Tab')),
-                  ),
-                  SizedBox(
-                    height: 70,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: navigationItems.length,
-                      itemBuilder: (context, index) {
-                        final homeNavigationItem = navigationItems[index];
-                        return GestureDetector(
-                          onTap: () {
-                            homeBloc.add(HomeSwitchTabEvent(
-                                user: selectedUser, index: index));
-                          },
-                          child: Column(
-                            children: [
-                              // icon
-                              homeNavigationItem.itemIcon,
-                              // name
-                              Text(homeNavigationItem.itemName),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  )
-                ],
-              ),
-            );
-          } else if (state is HomeErrorState) {
-            return const Center(
-              child: Text('Some Error Occured'),
-            );
-          } else {
-            return const SizedBox();
-          }
-        },
-      ),
+  // Chat list UI rendering
+  Widget _buildChatList(List<ChatsEntity> chats) {
+    return ListView.builder(
+      itemCount: chats.length,
+      itemBuilder: (context, index) {
+        final chat = chats[index];
+        return ListTile(
+          title: Text("${chat.firstName!} ${chat.lastName}"),
+          subtitle: Text(chat.lastMessage!),
+        );
+      },
     );
   }
 }

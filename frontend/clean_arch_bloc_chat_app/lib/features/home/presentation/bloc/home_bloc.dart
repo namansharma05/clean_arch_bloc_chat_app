@@ -22,12 +22,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(HomeLoadingState());
     print(event.user);
     final homeNavigationItems = await getAllNavigationItems.call(event.user!);
-    final initialContent = homeNavigationItems[0].itemWidget;
     chatsBloc!.add(ChatsGetAllEvent(user: event.user));
+    print("after chats get all event");
     emit(HomeLoadedState(
-        homeNavigationItems: homeNavigationItems,
-        initialContent: initialContent,
-        user: event.user));
+        homeNavigationItems: homeNavigationItems, user: event.user));
   }
 
   Future<void> homeSwitchTabEvent(
