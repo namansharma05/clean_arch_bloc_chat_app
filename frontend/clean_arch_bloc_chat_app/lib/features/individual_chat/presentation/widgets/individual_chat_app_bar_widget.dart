@@ -73,8 +73,9 @@ class IndividualChatAppBarWidget extends StatelessWidget
             child: Icon(Icons.person),
           ),
           const SizedBox(width: 10),
-          Text(
-              "${chatData!.userEntity!.firstName!} ${chatData.userEntity!.lastName!}"),
+          // Text(
+          //     "${chatData!.userEntity!.firstName!} ${chatData.userEntity!.lastName!}"),
+          Text("random}"),
         ],
       ),
     );

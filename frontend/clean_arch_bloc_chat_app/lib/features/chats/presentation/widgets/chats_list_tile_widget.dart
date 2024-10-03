@@ -43,10 +43,13 @@ class ChatsListTileWidget extends StatelessWidget {
       leading: const CircleAvatar(
         child: Icon(Icons.person_sharp),
       ),
-      title:
-          Text("${chat.userEntity!.firstName!} ${chat.userEntity!.lastName!}"),
-      subtitle: Text(chat.chatsLastMessage!),
-      trailing: Text(chat.chatsLastMessageTime.toString()),
+      // title:
+      //     Text("${chat.userEntity!.firstName!} ${chat.userEntity!.lastName!}"),
+      // subtitle: Text(chat.chatsLastMessage!),
+      // trailing: Text(chat.chatsLastMessageTime.toString()),
+      title: Text("random"),
+      subtitle: Text("subtitle"),
+      trailing: Text("last Message"),
       onTap: () {
         connetToSocket(context);
         Navigator.of(context).push(

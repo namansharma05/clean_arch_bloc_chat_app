@@ -36,7 +36,10 @@ class ChatsPage extends StatelessWidget {
                   final chat = state.chats[index];
                   final currentState = homeBloc.state as HomeLoadedState;
                   // write selected user == chat code here
-                  if (currentState.user!.id == chat.userEntity!.id) {
+                  // if (currentState.user!.id == chat.userEntity!.id) {
+                  //   return const SizedBox();
+                  // }
+                  if (currentState.user!.id == 1) {
                     return const SizedBox();
                   }
                   return ChatsListTileWidget(chat: chat);

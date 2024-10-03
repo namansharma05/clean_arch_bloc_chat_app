@@ -88,6 +88,24 @@ app.get("/get-users", async (req, res) => {
 	}
 });
 
+app.get("/get-user/:id", async (req, res) => {
+	const userId = req.params.id;
+	try {
+		const db = client.db(dbName);
+		const collection = db.collection(collectionName);
+
+		const user = await collection.findOne({ id: parseInt(userId) });
+		if (user) {
+			res.status(200).json({ message: "user found", user: user }); // Send the user data as a JSON response
+		} else {
+			res.status(404).json({ message: "User not found" });
+		}
+	} catch (error) {
+		console.error("Error retrieving data:", error);
+		res.status(500).json({ message: "Failed to retrieve data" });
+	}
+});
+
 async function connectToDb() {
 	await client.connect();
 	const res = await client.db("admin").command({ ping: 1 });

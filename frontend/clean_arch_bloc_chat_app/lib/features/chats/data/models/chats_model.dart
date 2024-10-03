@@ -1,38 +1,84 @@
 import 'package:clean_arch_bloc_chat_app/features/chats/domain/entities/chats_entity.dart';
-import 'package:clean_arch_bloc_chat_app/features/users/domain/entities/users_entity.dart';
 
 class ChatsModel {
-  final UsersEntity? usersEntity;
-  final String? chatsLastMessage;
-  final DateTime? chatsLastMessageTime;
+  int? id;
+  String? firstName;
+  String? lastName;
+  String? phone;
+  String? imageUrl;
+  String? lastOnline;
+  String? status;
+  String? lastMessage;
+  String? lastMessageTime;
 
   ChatsModel({
-    this.usersEntity,
-    this.chatsLastMessage,
-    this.chatsLastMessageTime,
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.phone,
+    this.imageUrl,
+    this.lastOnline,
+    this.status,
+    this.lastMessage,
+    this.lastMessageTime,
   });
 
-  factory ChatsModel.fromJson(Map<String, dynamic> json) {
-    return ChatsModel(
-      usersEntity: json['usersEntity'],
-      chatsLastMessage: json['chatsLastMessage'],
-      chatsLastMessageTime: json['chatsLastMessageTime'],
-    );
+  @override
+  String toString() {
+    return 'User{id: $id, firstName: $firstName, lastName: $lastName, phone: $phone}, imageUrl: $imageUrl, lastOnline: $lastOnline, status: $status, lastMessage: $lastMessage, lastMessageTime: $lastMessageTime';
   }
 
-  factory ChatsModel.fromEntity(ChatsEntity chatsEntity) {
-    return ChatsModel(
-      usersEntity: chatsEntity.userEntity,
-      chatsLastMessage: chatsEntity.chatsLastMessage,
-      chatsLastMessageTime: chatsEntity.chatsLastMessageTime,
-    );
+  ChatsModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    phone = json['phone'];
+    imageUrl = json['imageUrl'];
+    lastOnline = json['lastOnline'];
+    status = json['status'];
+    lastMessage = json['lastMessage'];
+    lastMessageTime = json['lastMessageTime'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['firstName'] = this.firstName;
+    data['lastName'] = this.lastName;
+    data['phone'] = this.phone;
+    data['imageUrl'] = this.imageUrl;
+    data['lastOnline'] = this.lastOnline;
+    data['status'] = this.status;
+    data['lastMessage'] = this.lastMessage;
+    data['lastMessageTime'] = this.lastMessageTime;
+    return data;
+  }
+
+  ChatsModel.fromEntity(ChatsEntity chatsEntity) {
+    final data = new ChatsModel();
+    data.id = chatsEntity.id;
+    data.firstName = chatsEntity.firstName;
+    data.lastName = chatsEntity.lastName;
+    data.phone = chatsEntity.phone;
+    data.imageUrl = chatsEntity.imageUrl;
+    data.lastOnline = chatsEntity.lastOnline;
+    data.status = chatsEntity.status;
+    data.lastMessage = chatsEntity.lastMessage;
+    data.lastMessageTime = chatsEntity.lastMessageTime;
   }
 
   ChatsEntity toEntity() {
-    return ChatsEntity(
-      userEntity: usersEntity,
-      chatsLastMessage: chatsLastMessage,
-      chatsLastMessageTime: chatsLastMessageTime,
-    );
+    final ChatsEntity data = new ChatsEntity();
+    data.id = this.id;
+    data.firstName = this.firstName;
+    data.lastName = this.lastName;
+    data.phone = this.phone;
+    data.imageUrl = this.imageUrl;
+    data.lastOnline = this.lastOnline;
+    data.status = this.status;
+    data.lastMessage = this.lastMessage;
+    data.lastMessageTime = this.lastMessageTime;
+
+    return data;
   }
 }

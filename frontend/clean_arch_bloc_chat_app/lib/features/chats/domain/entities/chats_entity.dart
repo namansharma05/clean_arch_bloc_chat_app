@@ -1,13 +1,23 @@
-import 'package:clean_arch_bloc_chat_app/features/users/domain/entities/users_entity.dart';
-
 class ChatsEntity {
-  final UsersEntity? userEntity;
-  final String? chatsLastMessage;
-  final DateTime? chatsLastMessageTime;
+  int? id;
+  String? firstName;
+  String? lastName;
+  String? phone;
+  String? imageUrl;
+  String? lastOnline;
+  String? status;
+  String? lastMessage;
+  String? lastMessageTime;
 
   ChatsEntity({
-    this.userEntity,
-    this.chatsLastMessage,
-    this.chatsLastMessageTime,
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.phone,
+    this.imageUrl,
+    this.lastOnline,
+    this.status,
+    this.lastMessage,
+    this.lastMessageTime,
   });
 }

@@ -9,6 +9,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(selectedUser);
     return const Scaffold(
       appBar: AppBarWidget(),
       body: BodyWidget(),
