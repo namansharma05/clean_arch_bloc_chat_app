@@ -1,16 +1,34 @@
+import 'dart:convert';
+
 import 'package:clean_arch_bloc_chat_app/features/users/data/models/users_model.dart';
 import 'package:clean_arch_bloc_chat_app/features/users/domain/entities/users_entity.dart';
 import 'package:clean_arch_bloc_chat_app/features/users/domain/repositories/users_repository.dart';
+import 'package:http/http.dart' as http;
 
 class UsersRepositoryImpl implements UsersRepository {
-  final List<UsersModel> usersModel = [
-    UsersModel(id: 1, name: "john", imageUrl: "/image url 1"),
-    UsersModel(id: 2, name: "ray", imageUrl: "/image url 2"),
-    UsersModel(id: 3, name: "cena", imageUrl: "/image url 3"),
-    UsersModel(id: 4, name: "rick", imageUrl: "/image url 4"),
-  ];
+  getData() async {
+    final url = Uri.parse("http://localhost:3000/get-users");
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      // print(jsonData['result'][0].runtimeType);
+      final List<UsersModel> result = [];
+      jsonData["result"].forEach((item) {
+        // print(item);
+        final userModel = UsersModel.fromJson(item);
+        print(userModel);
+        result.add(userModel);
+      });
+      return result;
+    } else {
+      print("Request failed with status: ${response.statusCode}");
+    }
+  }
+
   @override
   Future<List<UsersEntity>> getAllUsers() async {
+    final List<UsersModel> usersModel = await getData();
+    // print(usersModel);
     final result = usersModel.map((userModel) => userModel.toEntity()).toList();
     return result;
   }

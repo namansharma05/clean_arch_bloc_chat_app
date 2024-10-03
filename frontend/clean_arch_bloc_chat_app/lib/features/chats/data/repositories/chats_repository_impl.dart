@@ -8,38 +8,22 @@ import 'package:clean_arch_bloc_chat_app/features/users/domain/entities/users_en
 class ChatsRepositoryImpl implements ChatsRepository {
   List<ChatsModel> dummyChatsData = [
     ChatsModel(
-      usersEntity: UsersEntity(
-        id: 1,
-        name: "john",
-        imageUrl: "/image url 1",
-      ),
+      usersEntity: UsersEntity(),
       chatsLastMessage: 'Hi there, how are you',
       chatsLastMessageTime: DateTime(2024, 9, 10),
     ),
     ChatsModel(
-      usersEntity: UsersEntity(
-        id: 2,
-        name: "ray",
-        imageUrl: "/image url 2",
-      ),
+      usersEntity: UsersEntity(),
       chatsLastMessage: 'Hello are you ready',
       chatsLastMessageTime: DateTime(2024, 9, 20),
     ),
     ChatsModel(
-      usersEntity: UsersEntity(
-        id: 3,
-        name: "cena",
-        imageUrl: "/image url 3",
-      ),
+      usersEntity: UsersEntity(),
       chatsLastMessage: 'app is in progress',
       chatsLastMessageTime: DateTime(2024, 9, 18),
     ),
     ChatsModel(
-      usersEntity: UsersEntity(
-        id: 4,
-        name: "rick",
-        imageUrl: "/image url 4",
-      ),
+      usersEntity: UsersEntity(),
       chatsLastMessage: 'everything is hardcoded!',
       chatsLastMessageTime: DateTime(2024, 9, 9),
     ),

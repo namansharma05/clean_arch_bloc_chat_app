@@ -23,7 +23,7 @@ class UsersPage extends StatelessWidget {
                 final user = state.allUsers![index];
                 return ListTile(
                   leading: const CircleAvatar(child: Icon(Icons.person)),
-                  title: Text(user.name!),
+                  title: Text("${user.firstName!} ${user.lastName}"),
                   onTap: () {
                     homeBloc.add(HomeGetAllNavigationItemsEvent(user: user));
                     Navigator.push(
