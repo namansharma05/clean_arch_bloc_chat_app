@@ -33,28 +33,38 @@ const collectionName = "user_data";
 
 io.on("connection", (socket) => {
 	console.log(`new user connected `, socket.id);
-
 	// Join the user to their individual chat room
-	socket.on("join-room", (roomId) => {
-		socket.join(roomId); // Each chat will have a roomId
-	});
+	// socket.on("join-room", (roomId) => {
+	// 	socket.join(roomId); // Each chat will have a roomId
+	// });
 
 	// Send a message to a specific room
-	socket.on("send-message", (roomId, message) => {
-		io.to(roomId).emit("receive-message", message);
+	// socket.on("send-message", (roomId, message) => {
+	// 	io.to(roomId).emit("receive-message", message);
+	// });
+
+	socket.on("signin", (userId) => {
+		console.log(`current userId is`, userId);
+		clients[userId] = socket;
 	});
 
+	socket.on("message", (msg) => {
+		let targetId = msg.targetId;
+		if (clients[targetId]) {
+			clients[targetId].emit("message", msg);
+		}
+		// else {
+		// }
+	});
 	socket.on("disconnect", () => {
-		console.log(`User disconnected: ${socket.id}`);
+		let userId = Object.keys(clients).find(
+			(key) => clients[key].id === socket.id
+		);
+		if (userId) {
+			console.log(`User ${userId} disconnected`);
+			delete clients[userId]; // Remove user from the list
+		}
 	});
-	// socket.on("signin", (id) => {
-	// 	clients[id] = socket;
-	// });
-
-	// socket.on("message", (msg) => {
-	// 	let targetId = msg.targetId;
-	// 	if (clients[targetId]) clients[targetId].emit("message", msg);
-	// });
 });
 
 app.post("/add-users", async (req, res) => {

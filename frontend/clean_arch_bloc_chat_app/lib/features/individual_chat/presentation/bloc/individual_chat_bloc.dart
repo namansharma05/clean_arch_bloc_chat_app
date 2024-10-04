@@ -28,7 +28,7 @@ class IndividualChatBloc
       this.individualChatMessageModel)
       : super(IndividualChatInitial()) {
     on<IndividualChatFetchDataEvent>(individualChatFetchDataEvent);
-    on<IndividualChatConnectToSocketEvent>(individualChatConnectToSocketEvent);
+    // on<IndividualChatConnectToSocketEvent>(individualChatConnectToSocketEvent);
     on<IndividualChatDisconnectFromSocketEvent>(
         individualChatDisconnectFromSocketEvent);
     on<IndividualChatSendMessageEvent>(individualChatSendMessageEvent);
@@ -45,32 +45,35 @@ class IndividualChatBloc
       final chatMessages = await getAllChatMessages!.call();
       print(
           'chatmessages length inside in individual chat fetch data event is: ${chatMessages.length}');
-      emit(IndividualChatLoadedState(chatMessages: chatMessages));
-    } catch (e) {
-      emit(IndividualChatErrorState());
-    }
-  }
-
-  FutureOr<void> individualChatConnectToSocketEvent(
-      IndividualChatConnectToSocketEvent event,
-      Emitter<IndividualChatState> emit) async {
-    _socket = event.socket;
-    print('inside individual chat connect to socket event');
-    emit(IndividualChatLoadingState());
-
-    try {
-      _socket!.emit('signin', event.currentUser!.id);
-      final chatMessages = await getAllChatMessages!.call();
       emit(IndividualChatLoadedState(
-        chatMessages: chatMessages,
-        currentChat: event.chat,
-        socket: _socket!,
-        currentUser: event.currentUser,
-      ));
+          chatMessages: chatMessages,
+          currentChat: event.currentChat,
+          currentUser: event.currentUser));
     } catch (e) {
       emit(IndividualChatErrorState());
     }
   }
+
+  // FutureOr<void> individualChatConnectToSocketEvent(
+  //     IndividualChatConnectToSocketEvent event,
+  //     Emitter<IndividualChatState> emit) async {
+  //   _socket = event.socket;
+  //   print('inside individual chat connect to socket event');
+  //   emit(IndividualChatLoadingState());
+
+  //   try {
+  //     // _socket!.emit('signin', event.currentUser!.id);
+  //     final chatMessages = await getAllChatMessages!.call();
+  //     emit(IndividualChatLoadedState(
+  //       chatMessages: chatMessages,
+  //       currentChat: event.chat,
+  //       socket: _socket!,
+  //       currentUser: event.currentUser,
+  //     ));
+  //   } catch (e) {
+  //     emit(IndividualChatErrorState());
+  //   }
+  // }
 
   FutureOr<void> individualChatDisconnectFromSocketEvent(
       IndividualChatDisconnectFromSocketEvent event,

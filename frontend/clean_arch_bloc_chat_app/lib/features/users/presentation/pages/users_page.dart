@@ -1,6 +1,7 @@
 import 'package:clean_arch_bloc_chat_app/features/home/presentation/pages/home_page.dart';
 import 'package:clean_arch_bloc_chat_app/features/users/domain/entities/users_entity.dart';
 import 'package:clean_arch_bloc_chat_app/features/users/presentation/bloc/users_bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
@@ -15,6 +16,9 @@ class UsersPage extends StatelessWidget {
     });
 
     socket.connect();
+    socket.onConnect((_) {
+      socket.emit("signin", user.id);
+    });
 
     usersBloc.add(UsersSocketEvent(socket: socket));
   }
@@ -27,7 +31,7 @@ class UsersPage extends StatelessWidget {
       body: BlocBuilder<UsersBloc, UsersState>(
         builder: (context, state) {
           if (state is UsersLoadingState) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CupertinoActivityIndicator());
           } else if (state is UsersLoadedState) {
             return ListView.builder(
               itemCount: state.allUsers!.length,

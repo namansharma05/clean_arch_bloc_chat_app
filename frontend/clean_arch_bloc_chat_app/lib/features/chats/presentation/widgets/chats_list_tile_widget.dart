@@ -32,12 +32,13 @@ class ChatsListTileWidget extends StatelessWidget {
     //         currentChat: chat));
     //   });
     // });
-    individualChatBloc.add(IndividualChatConnectToSocketEvent(
-        socket: socket!, chat: chat, currentUser: user));
+    // individualChatBloc.add(IndividualChatConnectToSocketEvent(
+    //     socket: socket!, chat: chat, currentUser: user));
   }
 
   @override
   Widget build(BuildContext context) {
+    final individualChatBloc = BlocProvider.of<IndividualChatBloc>(context);
     return ListTile(
       leading: const CircleAvatar(
         child: Icon(Icons.person_sharp),
@@ -46,7 +47,9 @@ class ChatsListTileWidget extends StatelessWidget {
       subtitle: Text(chat.lastMessage!),
       trailing: Text(chat.lastMessageTime!),
       onTap: () {
-        connetToSocket(context);
+        // connetToSocket(context);
+        individualChatBloc.add(
+            IndividualChatFetchDataEvent(currentChat: chat, currentUser: user));
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => const IndividualChatPage(),
