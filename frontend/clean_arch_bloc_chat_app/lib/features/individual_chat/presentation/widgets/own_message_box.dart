@@ -12,6 +12,7 @@ class OwnMessageBox extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: ConstrainedBox(
         constraints: BoxConstraints(
+          minWidth: MediaQuery.of(context).size.width / 4.5,
           maxWidth: MediaQuery.of(context).size.width - 45,
         ),
         child: Card(

@@ -1,11 +1,24 @@
 import 'package:clean_arch_bloc_chat_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/features/home/presentation/pages/home_page.dart';
+import 'package:clean_arch_bloc_chat_app/features/users/domain/entities/users_entity.dart';
 import 'package:clean_arch_bloc_chat_app/features/users/presentation/bloc/users_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class UsersPage extends StatelessWidget {
   const UsersPage({super.key});
+
+  connectToSocket(BuildContext context, HomeBloc homeBloc, UsersEntity user) {
+    final socket = io.io('http://192.168.1.8:3000/', <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
+
+    socket.connect();
+
+    homeBloc.add(HomeGetAllNavigationItemsEvent(user: user));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +39,16 @@ class UsersPage extends StatelessWidget {
                   title: Text("${user.firstName!} ${user.lastName}"),
                   onTap: () {
                     // print(user);
-                    homeBloc.add(HomeGetAllNavigationItemsEvent(user: user));
+                    connectToSocket(context, homeBloc, user);
+
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => HomePage(
-                                  selectedUser: user,
-                                )));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomePage(
+                          selectedUser: user,
+                        ),
+                      ),
+                    );
                   },
                 );
               },

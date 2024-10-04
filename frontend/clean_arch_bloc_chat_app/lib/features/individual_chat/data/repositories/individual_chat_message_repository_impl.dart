@@ -4,33 +4,7 @@ import 'package:clean_arch_bloc_chat_app/features/individual_chat/domain/respsit
 
 class IndividualChatMessageRepositoryImpl
     implements IndividualChatMessageRepository {
-  List<IndividualChatMessageModel> chatMessages = [
-    IndividualChatMessageModel(
-      type: "Source",
-      message: 'Hi',
-      messageTime: DateTime.now(),
-    ),
-    IndividualChatMessageModel(
-      type: "Target",
-      message: 'Hello',
-      messageTime: DateTime.now(),
-    ),
-    IndividualChatMessageModel(
-      type: "Source",
-      message: 'How are you?',
-      messageTime: DateTime.now(),
-    ),
-    IndividualChatMessageModel(
-      type: "Target",
-      message: 'I am fine. How are you?',
-      messageTime: DateTime.now(),
-    ),
-    IndividualChatMessageModel(
-      type: "Source",
-      message: 'I am also fine.',
-      messageTime: DateTime.now(),
-    ),
-  ];
+  List<IndividualChatMessageModel> chatMessages = [];
   @override
   Future<List<IndividualChatMessageEntity>> getAllChatMessages() async {
     final result = chatMessages.map((individualChatMessage) {

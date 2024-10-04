@@ -33,14 +33,28 @@ const collectionName = "user_data";
 
 io.on("connection", (socket) => {
 	console.log(`new user connected `, socket.id);
-	socket.on("signin", (id) => {
-		clients[id] = socket;
+
+	// Join the user to their individual chat room
+	socket.on("join-room", (roomId) => {
+		socket.join(roomId); // Each chat will have a roomId
 	});
 
-	socket.on("message", (msg) => {
-		let targetId = msg.targetId;
-		if (clients[targetId]) clients[targetId].emit("message", msg);
+	// Send a message to a specific room
+	socket.on("send-message", (roomId, message) => {
+		io.to(roomId).emit("receive-message", message);
 	});
+
+	socket.on("disconnect", () => {
+		console.log(`User disconnected: ${socket.id}`);
+	});
+	// socket.on("signin", (id) => {
+	// 	clients[id] = socket;
+	// });
+
+	// socket.on("message", (msg) => {
+	// 	let targetId = msg.targetId;
+	// 	if (clients[targetId]) clients[targetId].emit("message", msg);
+	// });
 });
 
 app.post("/add-users", async (req, res) => {
