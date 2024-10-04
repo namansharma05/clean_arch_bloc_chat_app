@@ -40,7 +40,7 @@ class ChatsPage extends StatelessWidget {
                   // if (currentState.user!.id == chat.id) {
                   //   return const SizedBox();
                   // }
-                  return ChatsListTileWidget(chat: chat);
+                  return ChatsListTileWidget(chat: chat, user: user);
                 },
               );
             } else if (state is ChatsErrorState) {

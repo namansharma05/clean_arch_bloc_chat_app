@@ -1,4 +1,3 @@
-import 'package:clean_arch_bloc_chat_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/features/home/presentation/pages/home_page.dart';
 import 'package:clean_arch_bloc_chat_app/features/users/domain/entities/users_entity.dart';
 import 'package:clean_arch_bloc_chat_app/features/users/presentation/bloc/users_bloc.dart';
@@ -9,7 +8,7 @@ import 'package:socket_io_client/socket_io_client.dart' as io;
 class UsersPage extends StatelessWidget {
   const UsersPage({super.key});
 
-  connectToSocket(BuildContext context, HomeBloc homeBloc, UsersEntity user) {
+  connectToSocket(BuildContext context, UsersBloc usersBloc, UsersEntity user) {
     final socket = io.io('http://192.168.1.8:3000/', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
@@ -17,12 +16,12 @@ class UsersPage extends StatelessWidget {
 
     socket.connect();
 
-    homeBloc.add(HomeGetAllNavigationItemsEvent(user: user));
+    usersBloc.add(UsersSocketEvent(socket: socket));
   }
 
   @override
   Widget build(BuildContext context) {
-    final homeBloc = BlocProvider.of<HomeBloc>(context);
+    final UsersBloc usersBloc = BlocProvider.of<UsersBloc>(context);
     return Scaffold(
       appBar: AppBar(title: const Text('Users')),
       body: BlocBuilder<UsersBloc, UsersState>(
@@ -39,7 +38,7 @@ class UsersPage extends StatelessWidget {
                   title: Text("${user.firstName!} ${user.lastName}"),
                   onTap: () {
                     // print(user);
-                    connectToSocket(context, homeBloc, user);
+                    connectToSocket(context, usersBloc, user);
 
                     Navigator.push(
                       context,

@@ -12,20 +12,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetAllNavigationItems getAllNavigationItems;
   final ChatsBloc? chatsBloc;
   HomeBloc(this.getAllNavigationItems, this.chatsBloc) : super(HomeInitial()) {
-    on<HomeGetAllNavigationItemsEvent>(homeGetAllNavigationItemsEvent);
     on<HomeSwitchTabEvent>(homeSwitchTabEvent);
-  }
-
-  Future<void> homeGetAllNavigationItemsEvent(
-      HomeGetAllNavigationItemsEvent event, Emitter<HomeState> emit) async {
-    print("inside home get all navigation items event");
-    emit(HomeLoadingState());
-    print(event.user);
-    final homeNavigationItems = await getAllNavigationItems.call(event.user!);
-    chatsBloc!.add(ChatsGetAllEvent(user: event.user));
-    print("after chats get all event");
-    emit(HomeLoadedState(
-        homeNavigationItems: homeNavigationItems, user: event.user));
   }
 
   Future<void> homeSwitchTabEvent(

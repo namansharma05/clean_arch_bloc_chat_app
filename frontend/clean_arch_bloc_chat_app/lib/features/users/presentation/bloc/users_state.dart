@@ -19,3 +19,9 @@ class UsersSelectionState extends UsersState {
 
   UsersSelectionState({this.selectedUser});
 }
+
+class UsersSocketState extends UsersState {
+  final io.Socket? socket;
+
+  UsersSocketState({this.socket});
+}

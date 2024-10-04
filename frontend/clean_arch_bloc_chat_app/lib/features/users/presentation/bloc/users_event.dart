@@ -9,3 +9,9 @@ class UsersSelectionEvent extends UsersEvent {
 
   UsersSelectionEvent({this.selectedUser});
 }
+
+class UsersSocketEvent extends UsersEvent {
+  final io.Socket? socket;
+
+  UsersSocketEvent({this.socket});
+}
