@@ -2,7 +2,7 @@ class IndividualChatMessageEntity {
   int? senderId;
   int? receiverId;
   String? content;
-  DateTime? timeStamp;
+  String? timeStamp;
 
   IndividualChatMessageEntity({
     this.senderId,

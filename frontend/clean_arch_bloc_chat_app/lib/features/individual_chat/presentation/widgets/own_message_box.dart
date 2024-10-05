@@ -30,7 +30,7 @@ class OwnMessageBox extends StatelessWidget {
                   bottom: 20,
                 ),
                 child: Text(
-                  '${chatMessage!.message}',
+                  '${chatMessage!.content}',
                   style: const TextStyle(fontSize: 16),
                 ),
               ),
@@ -40,7 +40,7 @@ class OwnMessageBox extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        "${chatMessage!.messageTime!.hour}:${chatMessage!.messageTime!.minute}",
+                        "${chatMessage!.timeStamp}",
                         style: TextStyle(
                             fontSize: 13, color: Colors.grey.shade600),
                       ),

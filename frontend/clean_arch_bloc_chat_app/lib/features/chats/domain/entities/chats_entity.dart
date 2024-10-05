@@ -28,7 +28,7 @@ class MessagesEntity {
   int? senderId;
   int? receiverId;
   String? content;
-  DateTime? timeStamp;
+  String? timeStamp;
 
   MessagesEntity({
     this.senderId,

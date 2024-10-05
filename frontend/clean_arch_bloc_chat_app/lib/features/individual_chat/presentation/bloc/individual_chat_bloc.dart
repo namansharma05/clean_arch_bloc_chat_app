@@ -42,7 +42,8 @@ class IndividualChatBloc
       Emitter<IndividualChatState> emit) async {
     try {
       print('inside individual chat fetch data event');
-      final chatMessages = await getAllChatMessages!.call();
+      final chatMessages = await getAllChatMessages!
+          .call(event.currentUser!.id, event.currentChat!.id);
       print(
           'chatmessages length inside in individual chat fetch data event is: ${chatMessages.length}');
       emit(IndividualChatLoadedState(
@@ -93,14 +94,15 @@ class IndividualChatBloc
       'sourceId': event.sourceId,
       'targetId': event.targetid,
       'chatMessage': {
-        'type': event.newChatMessage!.type,
-        'message': event.newChatMessage!.message,
-        'messageTime': event.newChatMessage!.messageTime!.toIso8601String(),
+        'type': "Source",
+        'message': "hi",
+        'messageTime': "12:29",
       }
     };
     _socket!.emit('message', messageData);
     await addNewChatMessage!.call(event.newChatMessage);
-    final chatMessages = await getAllChatMessages!.call();
+    final chatMessages =
+        await getAllChatMessages!.call(event.sourceId, event.targetid);
     emit(IndividualChatLoadedState(
       chatMessages: chatMessages,
       currentChat: event.currentChat,
@@ -132,12 +134,13 @@ class IndividualChatBloc
         'event.jsonReceivedMessage.messageTime is: ${event.jsonReceivedMessage!['messageTime']}');
     final receivedMessage =
         individualChatMessageModel!.jsonToEntity(event.jsonReceivedMessage!);
-    print('received message type is ${receivedMessage.type}');
-    print('received message is ${receivedMessage.message}');
-    print('received messagetime is ${receivedMessage.messageTime}');
+    // print('received message type is ${receivedMessage.type}');
+    // print('received message is ${receivedMessage.message}');
+    // print('received messagetime is ${receivedMessage.messageTime}');
     await addNewChatMessage!.call(receivedMessage);
     print('after adding new chat message');
-    final chatMessages = await getAllChatMessages!.call();
+    final chatMessages = await getAllChatMessages!
+        .call(event.currentUser!.id, event.currentChat!.id);
     emit(IndividualChatLoadedState(
       chatMessages: chatMessages,
       currentChat: event.currentChat,

@@ -20,7 +20,7 @@ class IndividualChatBodyWidget extends StatelessWidget {
             itemCount: state.chatMessages!.length,
             itemBuilder: (context, index) {
               final chatMessage = state.chatMessages![index];
-              if (chatMessage.type == "Source") {
+              if (chatMessage.senderId == state.currentUser!.id) {
                 return OwnMessageBox(
                   chatMessage: chatMessage,
                 );

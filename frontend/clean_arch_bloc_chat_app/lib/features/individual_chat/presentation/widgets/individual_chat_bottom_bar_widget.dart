@@ -19,10 +19,10 @@ class IndividualChatBottomBarWidget extends StatelessWidget {
         currentChat: state2.currentChat,
         currentUser: state1.user,
         newChatMessage: IndividualChatMessageEntity(
-          type: 'Source',
-          message: chatMessageBoxController.text,
-          messageTime: DateTime.now(),
-        ),
+            // type: 'Source',
+            // message: chatMessageBoxController.text,
+            // messageTime: DateTime.now(),
+            ),
         sourceId: state1.user!.id,
         targetid: state2.currentChat!.id,
       ),
@@ -109,7 +109,7 @@ class IndividualChatBottomBarWidget extends StatelessWidget {
                 onTap: isEmpty
                     ? () {}
                     : () {
-                        sendMessage(chatsBloc, homeBloc, individualChatBloc);
+                        // sendMessage(chatsBloc, homeBloc, individualChatBloc);
                       },
                 child: Container(
                   height: 60,

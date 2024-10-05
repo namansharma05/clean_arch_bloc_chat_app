@@ -106,7 +106,7 @@ class Messages {
   int? senderId;
   int? receiverId;
   String? content;
-  DateTime? timeStamp;
+  String? timeStamp;
 
   Messages({
     this.senderId,

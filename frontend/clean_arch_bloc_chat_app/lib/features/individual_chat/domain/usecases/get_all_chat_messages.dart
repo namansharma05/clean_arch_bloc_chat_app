@@ -6,7 +6,9 @@ class GetAllChatMessages {
 
   GetAllChatMessages({required this.individualChatMessageRepository});
 
-  Future<List<IndividualChatMessageEntity>> call() async {
-    return await individualChatMessageRepository.getAllChatMessages();
+  Future<List<IndividualChatMessageEntity>> call(
+      int? userId, int? chatId) async {
+    return await individualChatMessageRepository.getAllChatMessages(
+        userId, chatId);
   }
 }

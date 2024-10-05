@@ -4,7 +4,7 @@ class IndividualChatMessageModel {
   int? senderId;
   int? receiverId;
   String? content;
-  DateTime? timeStamp;
+  String? timeStamp;
 
   IndividualChatMessageModel({
     this.senderId,
