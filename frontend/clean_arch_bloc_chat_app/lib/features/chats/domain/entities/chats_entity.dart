@@ -8,6 +8,7 @@ class ChatsEntity {
   String? status;
   String? lastMessage;
   String? lastMessageTime;
+  List<MessagesEntity>? messages;
 
   ChatsEntity({
     this.id,
@@ -19,5 +20,20 @@ class ChatsEntity {
     this.status,
     this.lastMessage,
     this.lastMessageTime,
+    this.messages,
+  });
+}
+
+class MessagesEntity {
+  int? senderId;
+  int? receiverId;
+  String? content;
+  DateTime? timeStamp;
+
+  MessagesEntity({
+    this.senderId,
+    this.receiverId,
+    this.content,
+    this.timeStamp,
   });
 }

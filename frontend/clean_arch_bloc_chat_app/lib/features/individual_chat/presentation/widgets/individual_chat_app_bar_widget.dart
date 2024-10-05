@@ -56,7 +56,6 @@ class IndividualChatAppBarWidget extends StatelessWidget
     final chatData = state is IndividualChatLoadedAppBarState
         ? state.currentChatData
         : (state as IndividualChatLoadedState).currentChat;
-    final individualChatBloc = BlocProvider.of<IndividualChatBloc>(context);
     return Padding(
       padding: const EdgeInsets.all(0.0),
       child: Row(
@@ -64,8 +63,7 @@ class IndividualChatAppBarWidget extends StatelessWidget
         children: [
           IconButton(
             onPressed: () {
-              individualChatBloc.add(IndividualChatDisconnectFromSocketEvent());
-              Navigator.of(context).maybePop();
+              Navigator.of(context).pop();
             },
             icon: const Icon(Icons.arrow_back, size: 30),
           ),

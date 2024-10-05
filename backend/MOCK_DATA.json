@@ -17,7 +17,21 @@
 				"lastOnline": "26/07/2024",
 				"status": "Nulla tellus.",
 				"lastMessage": "hello brother!",
-				"lastMessageTime": "12:29"
+				"lastMessageTime": "12:29",
+				"messages": [
+					{
+						"senderId": 1,
+						"receiverId": 2,
+						"content": "hi there! how are you?",
+						"timeStamp": "12/02/24 12:29:40"
+					},
+					{
+						"senderId": 2,
+						"receiverId": 1,
+						"content": "Hello, I am fine how about you?",
+						"timeStamp": "12/02/24 12:29:58"
+					}
+				]
 			},
 			{
 				"id": 3,
@@ -28,7 +42,21 @@
 				"lastOnline": "23/11/2023",
 				"status": "Cras in purus eu magna vulputate luctus.",
 				"lastMessage": "wanna hang out?",
-				"lastMessageTime": "06:00"
+				"lastMessageTime": "06:00",
+				"messages": [
+					{
+						"senderId": 1,
+						"receiverId": 3,
+						"content": "hi minni! is everything ok?",
+						"timeStamp": "12/02/24 12:29:40"
+					},
+					{
+						"senderId": 3,
+						"receiverId": 1,
+						"content": "Hello Lynnell, yes everything is just amazing?",
+						"timeStamp": "12/02/24 12:29:58"
+					}
+				]
 			}
 		]
 	},
@@ -50,7 +78,8 @@
 				"lastOnline": "24/02/2024",
 				"status": "In est risus, auctor sed, tristique in, tempus sit amet, sem.",
 				"lastMessage": "hello brother!",
-				"lastMessageTime": "12:29"
+				"lastMessageTime": "12:29",
+				"messages": []
 			},
 			{
 				"id": 3,
@@ -61,7 +90,8 @@
 				"lastOnline": "23/11/2023",
 				"status": "Cras in purus eu magna vulputate luctus.",
 				"lastMessage": "can you help me out here?",
-				"lastMessageTime": "08:45"
+				"lastMessageTime": "08:45",
+				"messages": []
 			}
 		]
 	},
@@ -83,7 +113,8 @@
 				"lastOnline": "24/02/2024",
 				"status": "In est risus, auctor sed, tristique in, tempus sit amet, sem.",
 				"lastMessage": "wanna hang out?",
-				"lastMessageTime": "06:00"
+				"lastMessageTime": "06:00",
+				"messages": []
 			},
 			{
 				"id": 2,
@@ -94,7 +125,8 @@
 				"lastOnline": "26/07/2024",
 				"status": "Nulla tellus.",
 				"lastMessage": "can you help me out here?",
-				"lastMessageTime": "08:45"
+				"lastMessageTime": "08:45",
+				"messages": []
 			},
 			{
 				"id": 4,
@@ -105,7 +137,8 @@
 				"lastOnline": "12/08/2024",
 				"status": "Donec ut dolor.",
 				"lastMessage": "How u doin?",
-				"lastMessageTime": "09:10"
+				"lastMessageTime": "09:10",
+				"messages": []
 			}
 		]
 	},
@@ -127,7 +160,8 @@
 				"lastOnline": "23/11/2023",
 				"status": "Cras in purus eu magna vulputate luctus.",
 				"lastMessage": "How u doin?",
-				"lastMessageTime": "09:10"
+				"lastMessageTime": "09:10",
+				"messages": []
 			}
 		]
 	}

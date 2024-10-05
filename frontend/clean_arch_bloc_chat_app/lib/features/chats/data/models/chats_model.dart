@@ -10,6 +10,7 @@ class ChatsModel {
   String? status;
   String? lastMessage;
   String? lastMessageTime;
+  List<Messages>? messages;
 
   ChatsModel({
     this.id,
@@ -21,11 +22,12 @@ class ChatsModel {
     this.status,
     this.lastMessage,
     this.lastMessageTime,
+    this.messages,
   });
 
   @override
   String toString() {
-    return 'User{id: $id, firstName: $firstName, lastName: $lastName, phone: $phone}, imageUrl: $imageUrl, lastOnline: $lastOnline, status: $status, lastMessage: $lastMessage, lastMessageTime: $lastMessageTime';
+    return 'User{id: $id, firstName: $firstName, lastName: $lastName, phone: $phone}, imageUrl: $imageUrl, lastOnline: $lastOnline, status: $status, lastMessage: $lastMessage, lastMessageTime: $lastMessageTime, messages: $messages';
   }
 
   ChatsModel.fromJson(Map<String, dynamic> json) {
@@ -38,6 +40,12 @@ class ChatsModel {
     status = json['status'];
     lastMessage = json['lastMessage'];
     lastMessageTime = json['lastMessageTime'];
+    if (json['messages'] != null) {
+      messages = <Messages>[];
+      json['messages'].forEach((v) {
+        messages!.add(new Messages.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +59,9 @@ class ChatsModel {
     data['status'] = this.status;
     data['lastMessage'] = this.lastMessage;
     data['lastMessageTime'] = this.lastMessageTime;
+    if (this.messages != null) {
+      data['messages'] = this.messages!.map((e) => e.toJson()).toList();
+    }
     return data;
   }
 
@@ -65,6 +76,12 @@ class ChatsModel {
     data.status = chatsEntity.status;
     data.lastMessage = chatsEntity.lastMessage;
     data.lastMessageTime = chatsEntity.lastMessageTime;
+    if (chatsEntity.messages != null) {
+      messages = <Messages>[];
+      chatsEntity.messages!.forEach((v) {
+        messages!.add(Messages.fromMessagesEntity(v));
+      });
+    }
   }
 
   ChatsEntity toEntity() {
@@ -78,7 +95,59 @@ class ChatsModel {
     data.status = this.status;
     data.lastMessage = this.lastMessage;
     data.lastMessageTime = this.lastMessageTime;
-
+    if (this.messages != null) {
+      data.messages = this.messages!.map((e) => e.toMessagesEntity()).toList();
+    }
     return data;
+  }
+}
+
+class Messages {
+  int? senderId;
+  int? receiverId;
+  String? content;
+  DateTime? timeStamp;
+
+  Messages({
+    this.senderId,
+    this.receiverId,
+    this.content,
+    this.timeStamp,
+  });
+
+  factory Messages.fromJson(Map<String, dynamic> json) {
+    return Messages(
+      senderId: json["senderId"],
+      receiverId: json["receiverId"],
+      content: json["content"],
+      timeStamp: json["timeStamp"],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "senderId": this.senderId,
+      "receiverId": this.receiverId,
+      "content": this.content,
+      "timeStamp": this.timeStamp,
+    };
+  }
+
+  factory Messages.fromMessagesEntity(MessagesEntity msg) {
+    return Messages(
+      senderId: msg.senderId,
+      receiverId: msg.receiverId,
+      content: msg.content,
+      timeStamp: msg.timeStamp,
+    );
+  }
+
+  MessagesEntity toMessagesEntity() {
+    return MessagesEntity(
+      senderId: this.senderId,
+      receiverId: this.receiverId,
+      content: this.content,
+      timeStamp: this.timeStamp,
+    );
   }
 }

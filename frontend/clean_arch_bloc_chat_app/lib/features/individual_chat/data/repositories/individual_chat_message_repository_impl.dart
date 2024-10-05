@@ -9,10 +9,10 @@ class IndividualChatMessageRepositoryImpl
   Future<List<IndividualChatMessageEntity>> getAllChatMessages() async {
     final result = chatMessages.map((individualChatMessage) {
       // print(individualChatMessage.runtimeType);
-      print('individual chat message type is: ${individualChatMessage.type}');
-      print('individual chat message is: ${individualChatMessage.message}');
-      print(
-          'individual chat messagetime is: ${individualChatMessage.messageTime}');
+      // print('individual chat message type is: ${individualChatMessage.senderId}');
+      // print('individual chat message is: ${individualChatMessage.receiverId}');
+      // print(
+      //     'individual chat messagetime is: ${individualChatMessage.content}');
       return individualChatMessage.toEntity();
     }).toList();
     return result;

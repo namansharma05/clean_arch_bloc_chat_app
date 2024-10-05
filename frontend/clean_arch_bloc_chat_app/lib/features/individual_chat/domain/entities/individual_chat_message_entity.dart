@@ -1,11 +1,13 @@
 class IndividualChatMessageEntity {
-  final String? message;
-  final DateTime? messageTime;
-  final String? type;
+  int? senderId;
+  int? receiverId;
+  String? content;
+  DateTime? timeStamp;
 
   IndividualChatMessageEntity({
-    this.type,
-    this.message,
-    this.messageTime,
+    this.senderId,
+    this.receiverId,
+    this.content,
+    this.timeStamp,
   });
 }
