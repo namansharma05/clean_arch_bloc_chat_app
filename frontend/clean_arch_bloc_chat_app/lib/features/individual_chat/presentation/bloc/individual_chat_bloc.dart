@@ -29,8 +29,8 @@ class IndividualChatBloc
       : super(IndividualChatInitial()) {
     on<IndividualChatFetchDataEvent>(individualChatFetchDataEvent);
     // on<IndividualChatConnectToSocketEvent>(individualChatConnectToSocketEvent);
-    on<IndividualChatDisconnectFromSocketEvent>(
-        individualChatDisconnectFromSocketEvent);
+    // on<IndividualChatDisconnectFromSocketEvent>(
+    //     individualChatDisconnectFromSocketEvent);
     on<IndividualChatSendMessageEvent>(individualChatSendMessageEvent);
 
     on<IndividualChatMessageChangedEvent>(individualChatMessageChangedEvent);
@@ -42,6 +42,7 @@ class IndividualChatBloc
       Emitter<IndividualChatState> emit) async {
     try {
       print('inside individual chat fetch data event');
+      _socket = event.socket;
       final chatMessages = await getAllChatMessages!
           .call(event.currentUser!.id, event.currentChat!.id);
       print(
@@ -76,33 +77,30 @@ class IndividualChatBloc
   //   }
   // }
 
-  FutureOr<void> individualChatDisconnectFromSocketEvent(
-      IndividualChatDisconnectFromSocketEvent event,
-      Emitter<IndividualChatState> emit) {
-    if (_socket != null) {
-      _socket!.disconnect();
-      _socket = null;
-      print('Socket disconnected');
-      emit(IndividualChatDisconnectFromSocketState());
-    }
-  }
+  // FutureOr<void> individualChatDisconnectFromSocketEvent(
+  //     IndividualChatDisconnectFromSocketEvent event,
+  //     Emitter<IndividualChatState> emit) {
+  //   if (_socket != null) {
+  //     _socket!.disconnect();
+  //     _socket = null;
+  //     print('Socket disconnected');
+  //     emit(IndividualChatDisconnectFromSocketState());
+  //   }
+  // }
 
   Future<void> individualChatSendMessageEvent(
       IndividualChatSendMessageEvent event,
       Emitter<IndividualChatState> emit) async {
-    final messageData = {
-      'sourceId': event.sourceId,
-      'targetId': event.targetid,
-      'chatMessage': {
-        'type': "Source",
-        'message': "hi",
-        'messageTime': "12:29",
-      }
-    };
-    _socket!.emit('message', messageData);
-    await addNewChatMessage!.call(event.newChatMessage);
-    final chatMessages =
-        await getAllChatMessages!.call(event.sourceId, event.targetid);
+    // print(event.newChatMessage);
+    final converted =
+        IndividualChatMessageModel.fromEntity(event.newChatMessage!);
+    final jsonData = converted.toJson();
+    print(jsonData);
+    _socket!.emit('message', jsonData);
+    print("under socket emit in individual chat send message event");
+    addNewChatMessage!.call(event.newChatMessage);
+    final chatMessages = await getAllChatMessages!
+        .call(event.currentUser!.id, event.currentChat!.id);
     emit(IndividualChatLoadedState(
       chatMessages: chatMessages,
       currentChat: event.currentChat,

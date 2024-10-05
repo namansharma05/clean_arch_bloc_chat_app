@@ -11,20 +11,20 @@ class IndividualChatBottomBarWidget extends StatelessWidget {
   IndividualChatBottomBarWidget({super.key});
   final TextEditingController chatMessageBoxController =
       TextEditingController();
+
   sendMessage(chatsBloc, homeBloc, individualChatBloc) {
-    final state1 = homeBloc.state as HomeLoadedState;
-    final state2 = individualChatBloc.state as IndividualChatLoadedState;
+    final currentState = individualChatBloc.state as IndividualChatLoadedState;
     individualChatBloc.add(
       IndividualChatSendMessageEvent(
-        currentChat: state2.currentChat,
-        currentUser: state1.user,
+        currentChat: currentState.currentChat,
+        currentUser: currentState.currentUser,
         newChatMessage: IndividualChatMessageEntity(
-            // type: 'Source',
-            // message: chatMessageBoxController.text,
-            // messageTime: DateTime.now(),
-            ),
-        sourceId: state1.user!.id,
-        targetid: state2.currentChat!.id,
+            senderId: currentState.currentUser!.id,
+            receiverId: currentState.currentChat!.id,
+            content: chatMessageBoxController.text,
+            timeStamp: DateTime.now().toIso8601String()),
+        // sourceId: state1.user!.id,
+        // targetid: state2.currentChat!.id,
       ),
     );
     chatMessageBoxController.clear();
@@ -109,7 +109,7 @@ class IndividualChatBottomBarWidget extends StatelessWidget {
                 onTap: isEmpty
                     ? () {}
                     : () {
-                        // sendMessage(chatsBloc, homeBloc, individualChatBloc);
+                        sendMessage(chatsBloc, homeBloc, individualChatBloc);
                       },
                 child: Container(
                   height: 60,

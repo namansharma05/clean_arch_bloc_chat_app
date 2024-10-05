@@ -26,6 +26,24 @@ class IndividualChatMessageRepositoryImpl
     }
   }
 
+  addChatMessages(IndividualChatMessageEntity? newChatMessage) async {
+    final url = Uri.parse("http://localhost:3000/add-message");
+    final Map<String, dynamic> requestBody = {
+      "senderId": newChatMessage!.senderId,
+      "receiverId": newChatMessage.receiverId,
+      "content": newChatMessage.content,
+      "timeStamp": newChatMessage.timeStamp,
+    };
+    final response = await http.post(url,
+        headers: {'content-type': 'application/json'},
+        body: jsonEncode(requestBody));
+    if (response.statusCode == 200) {
+      print("POST request successful: ${response.body}");
+    } else {
+      print("Failed with status: ${response.statusCode}");
+    }
+  }
+
   @override
   Future<List<IndividualChatMessageEntity>> getAllChatMessages(
       int? userId, int? chatId) async {
@@ -46,6 +64,7 @@ class IndividualChatMessageRepositoryImpl
   Future<void> addNewChatMessage(
       IndividualChatMessageEntity? newChatMessage) async {
     print('inside add new chat message');
+    addChatMessages(newChatMessage);
     // chatMessages.add(IndividualChatMessageModel.fromEntity(newChatMessage!));
     // chatMessages.forEach(print);
   }

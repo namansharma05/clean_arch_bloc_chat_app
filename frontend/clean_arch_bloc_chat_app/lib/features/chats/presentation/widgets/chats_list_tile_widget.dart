@@ -2,6 +2,7 @@ import 'package:clean_arch_bloc_chat_app/features/chats/domain/entities/chats_en
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/bloc/individual_chat_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/pages/individual_chat_page.dart';
 import 'package:clean_arch_bloc_chat_app/features/users/domain/entities/users_entity.dart';
+import 'package:clean_arch_bloc_chat_app/features/users/presentation/bloc/users_bloc.dart';
 // import 'package:clean_arch_bloc_chat_app/features/users/presentation/bloc/users_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,6 +40,7 @@ class ChatsListTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final individualChatBloc = BlocProvider.of<IndividualChatBloc>(context);
+    final usersBloc = BlocProvider.of<UsersBloc>(context);
     return ListTile(
       leading: const CircleAvatar(
         child: Icon(Icons.person_sharp),
@@ -48,8 +50,9 @@ class ChatsListTileWidget extends StatelessWidget {
       trailing: Text(chat.lastMessageTime!),
       onTap: () {
         // connetToSocket(context);
-        individualChatBloc.add(
-            IndividualChatFetchDataEvent(currentChat: chat, currentUser: user));
+        final usersState = usersBloc.state as UsersSocketState;
+        individualChatBloc.add(IndividualChatFetchDataEvent(
+            socket: usersState.socket, currentChat: chat, currentUser: user));
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => const IndividualChatPage(),

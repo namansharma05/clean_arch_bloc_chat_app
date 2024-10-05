@@ -31,6 +31,46 @@ var clients = {};
 const dbName = "chat_app";
 const collectionName = "user_data";
 
+async function saveMessageToDB(message) {
+	try {
+		const db = client.db(dbName);
+		const collection = db.collection("pending_messages");
+		const result = await collection.insertOne(message);
+		console.log(`Message inserted with ID: ${result.insertedId}`);
+	} catch (error) {
+		console.error("Error saving message:", error);
+	}
+}
+
+// Stores message when the user is offline
+async function storeMessageForLater(message) {
+	const newMessage = {
+		senderId: message.senderId,
+		receiverId: message.receiverId,
+		content: message.content,
+		timestamp: message.timeStamp,
+		status: "pending", // Mark the message as pending until delivered
+	};
+	await saveMessageToDB(newMessage); // Save to MongoDB
+}
+
+// Send pending messages when the user is back online
+async function sendPendingMessages(receiverId, socket) {
+	const db = client.db("chat_app");
+	const collection = db.collection("messages");
+	const pendingMessages = await collection
+		.find({ receiverId: receiverId, status: "pending" })
+		.toArray();
+
+	for (const msg of pendingMessages) {
+		socket.emit("message", msg);
+		await collection.updateOne(
+			{ _id: msg._id },
+			{ $set: { status: "delivered" } }
+		);
+	}
+}
+
 io.on("connection", (socket) => {
 	console.log(`new user connected `, socket.id);
 	// Join the user to their individual chat room
@@ -46,15 +86,17 @@ io.on("connection", (socket) => {
 	socket.on("signin", (userId) => {
 		console.log(`current userId is`, userId);
 		clients[userId] = socket;
+		sendPendingMessages(userId, socket);
 	});
 
 	socket.on("message", (msg) => {
-		let targetId = msg.targetId;
-		if (clients[targetId]) {
-			clients[targetId].emit("message", msg);
+		let receiverId = msg.receiverId;
+		console.log(`received message: ${msg}`);
+		if (clients[receiverId]) {
+			clients[receiverId].emit("message", msg);
+		} else {
+			storeMessageForLater(msg);
 		}
-		// else {
-		// }
 	});
 	socket.on("disconnect", () => {
 		let userId = Object.keys(clients).find(
@@ -105,10 +147,10 @@ app.post("/add-message", async (req, res) => {
 			{
 				$push: {
 					"chats.$.messages": {
-						senderId,
-						receiverId,
-						content,
-						timeStamp,
+						senderId: parseInt(senderId),
+						receiverId: parseInt(receiverId),
+						content: content,
+						timeStamp: timeStamp,
 					},
 				},
 				$set: {
