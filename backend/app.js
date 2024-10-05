@@ -95,6 +95,46 @@ app.post("/add-users", async (req, res) => {
 	}
 });
 
+app.post("/add-message", async (req, res) => {
+	const { senderId, receiverId, content, timeStamp } = req.body;
+	try {
+		const db = client.db(dbName);
+		const collection = db.collection(collectionName);
+		const updatedChatData = await collection.updateOne(
+			{ id: parseInt(senderId), "chats.id": parseInt(receiverId) },
+			{
+				$push: {
+					"chats.$.messages": {
+						senderId,
+						receiverId,
+						content,
+						timeStamp,
+					},
+				},
+				$set: {
+					"chats.$.lastMessage": content,
+					"chats.$.lastMessageTime": timeStamp,
+				},
+			}
+		);
+		if (updatedChatData.matchedCount === 0) {
+			return res.status(404).json({ error: "User or chat not found" });
+		}
+
+		if (updatedChatData.modifiedCount === 0) {
+			return res
+				.status(400)
+				.json({ error: "Message could not be added" });
+		}
+		res.status(200).json({
+			message: "Message added successfully",
+		});
+	} catch (error) {
+		console.error("Error inserting data:", error);
+		res.status(500).json({ message: "Failed to add item" });
+	}
+});
+
 app.get("/get-users", async (req, res) => {
 	try {
 		const db = client.db(dbName);

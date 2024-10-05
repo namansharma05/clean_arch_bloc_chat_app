@@ -8,12 +8,10 @@ import 'package:http/http.dart' as http;
 class IndividualChatMessageRepositoryImpl
     implements IndividualChatMessageRepository {
   getChatMessages(int? userId, int? chatId) async {
-    print("user id inside chats repository impl: ${userId}");
     final url = Uri.parse("http://localhost:3000/get-user/$userId");
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
-      // print(jsonData);
       final chatsList = jsonData["user"]["chats"];
       Map<String, dynamic>? chatWithId = chatsList
           .firstWhere((chat) => chat['id'] == chatId, orElse: () => null);
@@ -21,7 +19,6 @@ class IndividualChatMessageRepositoryImpl
       if (chatWithId != null) {
         chatWithId['messages'].forEach((message) =>
             result.add(IndividualChatMessageModel.fromJson(message)));
-        // chatWithId['messages'].forEach((e) => print(e.runtimeType));
       }
       return result;
     } else {
