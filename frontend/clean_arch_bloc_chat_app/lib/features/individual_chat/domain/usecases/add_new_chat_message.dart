@@ -7,8 +7,6 @@ class AddNewChatMessage {
   AddNewChatMessage({this.individualChatMessageRepository});
 
   Future<void> call(IndividualChatMessageEntity? newChatMessage) async {
-    print("inside add new chat message usecase");
-    print(newChatMessage);
     await individualChatMessageRepository!.addNewChatMessage(newChatMessage!);
   }
 }

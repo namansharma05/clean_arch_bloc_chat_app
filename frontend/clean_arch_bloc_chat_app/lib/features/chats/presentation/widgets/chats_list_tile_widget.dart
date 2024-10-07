@@ -16,26 +16,6 @@ class ChatsListTileWidget extends StatelessWidget {
     required this.chat,
     this.user,
   });
-  connetToSocket(BuildContext context) {
-    // final individualChatBloc = BlocProvider.of<IndividualChatBloc>(context);
-    // final usersBloc = BlocProvider.of<UsersBloc>(context);
-    // final usersState2 = usersBloc.state as UsersSocketState;
-
-    // final socket = usersState2.socket;
-    // socket.connect();
-
-    // socket.onConnect((_) {
-    //   print('Connected to the socket server');
-    //   socket.on("message", (msg) {
-    //     individualChatBloc.add(IndividualChatAddNewMessageEvent(
-    //         jsonReceivedMessage: msg['chatMessage'],
-    //         currentUser: homeState.user,
-    //         currentChat: chat));
-    //   });
-    // });
-    // individualChatBloc.add(IndividualChatConnectToSocketEvent(
-    //     socket: socket!, chat: chat, currentUser: user));
-  }
 
   @override
   Widget build(BuildContext context) {

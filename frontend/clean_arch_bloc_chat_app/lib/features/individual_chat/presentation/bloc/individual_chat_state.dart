@@ -23,13 +23,3 @@ class IndividualChatConnectToSocketState extends IndividualChatState {
 
   IndividualChatConnectToSocketState({required this.socket});
 }
-
-class IndividualChatDisconnectFromSocketState extends IndividualChatState {}
-
-class IndividualChatMessageChangedState extends IndividualChatState {}
-
-class IndividualChatLoadedAppBarState extends IndividualChatState {
-  final ChatsEntity? currentChatData;
-
-  IndividualChatLoadedAppBarState({this.currentChatData});
-}

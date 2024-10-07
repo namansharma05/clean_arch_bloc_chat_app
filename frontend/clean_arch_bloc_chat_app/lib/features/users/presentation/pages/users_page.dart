@@ -1,5 +1,4 @@
 import 'package:clean_arch_bloc_chat_app/features/home/presentation/pages/home_page.dart';
-import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/bloc/individual_chat_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/features/users/domain/entities/users_entity.dart';
 import 'package:clean_arch_bloc_chat_app/features/users/presentation/bloc/users_bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,7 +11,6 @@ class UsersPage extends StatelessWidget {
 
   connectToSocket(BuildContext context, UsersEntity? user) {
     final usersBloc = BlocProvider.of<UsersBloc>(context);
-    final individualChatBloc = BlocProvider.of<IndividualChatBloc>(context);
     final socket = io.io('http://192.168.1.9:3000/', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
@@ -28,7 +26,6 @@ class UsersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UsersBloc usersBloc = BlocProvider.of<UsersBloc>(context);
     return Scaffold(
       appBar: AppBar(title: const Text('Users')),
       body: BlocBuilder<UsersBloc, UsersState>(

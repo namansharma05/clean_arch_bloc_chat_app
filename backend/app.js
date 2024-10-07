@@ -142,7 +142,7 @@ app.post("/add-message", async (req, res) => {
 	try {
 		const db = client.db(dbName);
 		const collection = db.collection(collectionName);
-		const updatedChatData = await collection.updateOne(
+		const updatedChatData1 = await collection.updateOne(
 			{ id: parseInt(senderId), "chats.id": parseInt(receiverId) },
 			{
 				$push: {
@@ -159,11 +159,34 @@ app.post("/add-message", async (req, res) => {
 				},
 			}
 		);
-		if (updatedChatData.matchedCount === 0) {
+		const updatedChatData2 = await collection.updateOne(
+			{ id: parseInt(receiverId), "chats.id": parseInt(senderId) },
+			{
+				$push: {
+					"chats.$.messages": {
+						senderId: parseInt(senderId),
+						receiverId: parseInt(receiverId),
+						content: content,
+						timeStamp: timeStamp,
+					},
+				},
+				$set: {
+					"chats.$.lastMessage": content,
+					"chats.$.lastMessageTime": timeStamp,
+				},
+			}
+		);
+		if (
+			updatedChatData1.matchedCount === 0 &&
+			updatedChatData2.matchedCount === 0
+		) {
 			return res.status(404).json({ error: "User or chat not found" });
 		}
 
-		if (updatedChatData.modifiedCount === 0) {
+		if (
+			updatedChatData1.modifiedCount === 0 &&
+			updatedChatData1.modifiedCount === 0
+		) {
 			return res
 				.status(400)
 				.json({ error: "Message could not be added" });

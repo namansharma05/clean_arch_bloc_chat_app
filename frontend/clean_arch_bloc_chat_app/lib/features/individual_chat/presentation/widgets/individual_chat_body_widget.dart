@@ -1,34 +1,92 @@
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/bloc/individual_chat_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/widgets/own_message_box.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/widgets/reply_message_box.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class IndividualChatBodyWidget extends StatelessWidget {
+class IndividualChatBodyWidget extends StatefulWidget {
   const IndividualChatBodyWidget({super.key});
 
   @override
+  State<IndividualChatBodyWidget> createState() =>
+      _IndividualChatBodyWidgetState();
+}
+
+class _IndividualChatBodyWidgetState extends State<IndividualChatBodyWidget> {
+  final ScrollController _scrollController = ScrollController();
+
+  void _scrollToBottom() {
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<IndividualChatBloc, IndividualChatState>(
-      builder: (context, state) {
-        print('inside individual chat body widget');
+    return BlocConsumer<IndividualChatBloc, IndividualChatState>(
+      listenWhen: (previous, current) {
+        print(
+            '👂 ListenWhen - Previous: ${previous.runtimeType}, Current: ${current.runtimeType}');
+        return true;
+      },
+      buildWhen: (previous, current) {
+        print(
+            '🏗️ BuildWhen - Previous: ${previous.runtimeType}, Current: ${current.runtimeType}');
+
+        // Always rebuild for different state types
+        if (previous.runtimeType != current.runtimeType) {
+          print('📱 Rebuilding due to state type change');
+          return true;
+        }
+
+        // For same state types, check message changes
+        if (previous is IndividualChatLoadedState &&
+            current is IndividualChatLoadedState) {
+          final hasChanged =
+              previous.chatMessages?.length != current.chatMessages?.length;
+          print('📱 Messages changed: $hasChanged');
+          return hasChanged;
+        }
+
+        return false;
+      },
+      listener: (context, state) {
         if (state is IndividualChatLoadedState) {
-          print('inside state is individual chat loaded state');
-          print(
-              'chat messages length: ${state.chatMessages!.length.toString()}');
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (_scrollController.hasClients) {
+              _scrollController.animateTo(
+                0,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOut,
+              );
+            }
+          });
+        }
+      },
+      builder: (context, state) {
+        print('🎨 Building chat body with state: ${state.runtimeType}');
+
+        if (state is IndividualChatLoadedState) {
           return ListView.builder(
-            itemCount: state.chatMessages!.length,
+            key: ValueKey('chat_list_${state.chatMessages?.length}'),
+            controller: _scrollController,
+            reverse: true,
+            itemCount: state.chatMessages?.length ?? 0,
             itemBuilder: (context, index) {
-              final chatMessage = state.chatMessages![index];
-              if (chatMessage.senderId == state.currentUser!.id) {
-                return OwnMessageBox(
-                  chatMessage: chatMessage,
-                );
-              } else {
-                return ReplyMessageBox(
-                  chatMessage: chatMessage,
-                );
-              }
+              final message = state.chatMessages![index];
+              return message.senderId == state.currentUser!.id
+                  ? OwnMessageBox(
+                      chatMessage: message,
+                    )
+                  : ReplyMessageBox(
+                      chatMessage: message,
+                    );
             },
           );
         } else if (state is IndividualChatLoadingState) {
@@ -38,5 +96,11 @@ class IndividualChatBodyWidget extends StatelessWidget {
         }
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }

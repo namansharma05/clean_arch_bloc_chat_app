@@ -1,6 +1,5 @@
 import 'package:clean_arch_bloc_chat_app/features/chats/presentation/bloc/chats_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/bloc/individual_chat_bloc.dart';
-import 'package:clean_arch_bloc_chat_app/features/users/presentation/bloc/users_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/utils/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,10 +26,7 @@ class IndividualChatAppBarWidget extends StatelessWidget
           return true;
         },
         builder: (context, state) {
-          if (state is IndividualChatLoadedAppBarState) {
-            return _buildAppBarContent(context, state);
-          } else if (state is IndividualChatLoadedState &&
-              state.currentChat != null) {
+          if (state is IndividualChatLoadedState && state.currentChat != null) {
             return _buildAppBarContent(context, state);
           } else {
             return const SizedBox(); // or some loading indicator

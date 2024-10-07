@@ -63,7 +63,6 @@ class IndividualChatMessageRepositoryImpl
   @override
   Future<void> addNewChatMessage(
       IndividualChatMessageEntity? newChatMessage) async {
-    print('inside add new chat message');
     addChatMessages(newChatMessage);
     // chatMessages.add(IndividualChatMessageModel.fromEntity(newChatMessage!));
     // chatMessages.forEach(print);
