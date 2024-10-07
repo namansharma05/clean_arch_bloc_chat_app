@@ -1,8 +1,6 @@
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/bloc/individual_chat_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/widgets/own_message_box.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/widgets/reply_message_box.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,16 +14,6 @@ class IndividualChatBodyWidget extends StatefulWidget {
 
 class _IndividualChatBodyWidgetState extends State<IndividualChatBodyWidget> {
   final ScrollController _scrollController = ScrollController();
-
-  void _scrollToBottom() {
-    if (_scrollController.hasClients) {
-      _scrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +64,6 @@ class _IndividualChatBodyWidgetState extends State<IndividualChatBodyWidget> {
           return ListView.builder(
             key: ValueKey('chat_list_${state.chatMessages?.length}'),
             controller: _scrollController,
-            reverse: true,
             itemCount: state.chatMessages?.length ?? 0,
             itemBuilder: (context, index) {
               final message = state.chatMessages![index];

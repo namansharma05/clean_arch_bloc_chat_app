@@ -32,7 +32,7 @@ class IndividualChatMessageRepositoryImpl
       "senderId": newChatMessage!.senderId,
       "receiverId": newChatMessage.receiverId,
       "content": newChatMessage.content,
-      "timeStamp": newChatMessage.timeStamp,
+      "timeStamp": newChatMessage.timeStamp!.toIso8601String(),
     };
     final response = await http.post(url,
         headers: {'content-type': 'application/json'},
@@ -50,11 +50,6 @@ class IndividualChatMessageRepositoryImpl
     List<IndividualChatMessageModel> chatMessages =
         await getChatMessages(userId, chatId);
     final result = chatMessages.map((individualChatMessage) {
-      // print(individualChatMessage.runtimeType);
-      // print('individual chat message type is: ${individualChatMessage.senderId}');
-      // print('individual chat message is: ${individualChatMessage.receiverId}');
-      // print(
-      //     'individual chat messagetime is: ${individualChatMessage.content}');
       return individualChatMessage.toEntity();
     }).toList();
     return result;
@@ -64,7 +59,5 @@ class IndividualChatMessageRepositoryImpl
   Future<void> addNewChatMessage(
       IndividualChatMessageEntity? newChatMessage) async {
     addChatMessages(newChatMessage);
-    // chatMessages.add(IndividualChatMessageModel.fromEntity(newChatMessage!));
-    // chatMessages.forEach(print);
   }
 }

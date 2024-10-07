@@ -9,7 +9,7 @@ class ChatsModel {
   String? lastOnline;
   String? status;
   String? lastMessage;
-  String? lastMessageTime;
+  DateTime? lastMessageTime;
   List<Messages>? messages;
 
   ChatsModel({
@@ -39,7 +39,7 @@ class ChatsModel {
     lastOnline = json['lastOnline'];
     status = json['status'];
     lastMessage = json['lastMessage'];
-    lastMessageTime = json['lastMessageTime'];
+    lastMessageTime = DateTime.parse(json['lastMessageTime']);
     if (json['messages'] != null) {
       messages = <Messages>[];
       json['messages'].forEach((v) {
@@ -58,7 +58,7 @@ class ChatsModel {
     data['lastOnline'] = this.lastOnline;
     data['status'] = this.status;
     data['lastMessage'] = this.lastMessage;
-    data['lastMessageTime'] = this.lastMessageTime;
+    data['lastMessageTime'] = this.lastMessageTime!.toIso8601String();
     if (this.messages != null) {
       data['messages'] = this.messages!.map((e) => e.toJson()).toList();
     }
@@ -106,7 +106,7 @@ class Messages {
   int? senderId;
   int? receiverId;
   String? content;
-  String? timeStamp;
+  DateTime? timeStamp;
 
   Messages({
     this.senderId,
@@ -120,7 +120,7 @@ class Messages {
       senderId: json["senderId"],
       receiverId: json["receiverId"],
       content: json["content"],
-      timeStamp: json["timeStamp"],
+      timeStamp: DateTime.parse(json["timeStamp"]),
     );
   }
 
@@ -129,7 +129,7 @@ class Messages {
       "senderId": this.senderId,
       "receiverId": this.receiverId,
       "content": this.content,
-      "timeStamp": this.timeStamp,
+      "timeStamp": this.timeStamp!.toIso8601String(),
     };
   }
 

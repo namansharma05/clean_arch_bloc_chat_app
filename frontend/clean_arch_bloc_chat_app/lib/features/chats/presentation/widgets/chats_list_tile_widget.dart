@@ -3,10 +3,8 @@ import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/b
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/pages/individual_chat_page.dart';
 import 'package:clean_arch_bloc_chat_app/features/users/domain/entities/users_entity.dart';
 import 'package:clean_arch_bloc_chat_app/features/users/presentation/bloc/users_bloc.dart';
-// import 'package:clean_arch_bloc_chat_app/features/users/presentation/bloc/users_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class ChatsListTileWidget extends StatelessWidget {
   final ChatsEntity chat;
@@ -27,7 +25,8 @@ class ChatsListTileWidget extends StatelessWidget {
       ),
       title: Text("${chat.firstName!} ${chat.lastName!}"),
       subtitle: Text(chat.lastMessage!),
-      trailing: Text(chat.lastMessageTime!),
+      trailing: Text(
+          "${chat.lastMessageTime!.day}/${chat.lastMessageTime!.month}/${chat.lastMessageTime!.year}"),
       onTap: () {
         // connetToSocket(context);
         final usersState = usersBloc.state as UsersSocketState;

@@ -39,7 +39,7 @@ class ReplyMessageBox extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        "${chatMessage!.timeStamp}",
+                        "${chatMessage!.timeStamp!.hour}:${chatMessage!.timeStamp!.minute}",
                         style: TextStyle(
                             fontSize: 13, color: Colors.grey.shade600),
                       ),

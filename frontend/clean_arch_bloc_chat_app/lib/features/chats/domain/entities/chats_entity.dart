@@ -7,7 +7,7 @@ class ChatsEntity {
   String? lastOnline;
   String? status;
   String? lastMessage;
-  String? lastMessageTime;
+  DateTime? lastMessageTime;
   List<MessagesEntity>? messages;
 
   ChatsEntity({
@@ -28,7 +28,7 @@ class MessagesEntity {
   int? senderId;
   int? receiverId;
   String? content;
-  String? timeStamp;
+  DateTime? timeStamp;
 
   MessagesEntity({
     this.senderId,

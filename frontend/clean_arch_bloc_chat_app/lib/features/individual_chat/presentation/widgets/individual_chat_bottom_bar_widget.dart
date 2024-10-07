@@ -22,7 +22,7 @@ class IndividualChatBottomBarWidget extends StatelessWidget {
             senderId: currentState.currentUser!.id,
             receiverId: currentState.currentChat!.id,
             content: chatMessageBoxController.text,
-            timeStamp: DateTime.now().toIso8601String()),
+            timeStamp: DateTime.now()),
         // sourceId: state1.user!.id,
         // targetid: state2.currentChat!.id,
       ),

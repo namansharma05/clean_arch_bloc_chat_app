@@ -4,7 +4,7 @@ class IndividualChatMessageModel {
   int? senderId;
   int? receiverId;
   String? content;
-  String? timeStamp;
+  DateTime? timeStamp;
 
   IndividualChatMessageModel({
     this.senderId,
@@ -18,7 +18,7 @@ class IndividualChatMessageModel {
       senderId: json["senderId"],
       receiverId: json["receiverId"],
       content: json["content"],
-      timeStamp: json["timeStamp"],
+      timeStamp: DateTime.parse(json["timeStamp"]),
     );
   }
 
@@ -27,7 +27,7 @@ class IndividualChatMessageModel {
       "senderId": this.senderId,
       "receiverId": this.receiverId,
       "content": this.content,
-      "timeStamp": this.timeStamp,
+      "timeStamp": this.timeStamp!.toIso8601String(),
     };
   }
 
