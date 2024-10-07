@@ -124,12 +124,12 @@ class IndividualChatBloc
   Future<void> individualChatAddNewMessageEvent(
       IndividualChatAddNewMessageEvent event,
       Emitter<IndividualChatState> emit) async {
-    print(
-        'event.jsonReceivedMessage.type is: ${event.jsonReceivedMessage!['type']}');
-    print(
-        'event.jsonReceivedMessage.message is: ${event.jsonReceivedMessage!['message']}');
-    print(
-        'event.jsonReceivedMessage.messageTime is: ${event.jsonReceivedMessage!['messageTime']}');
+    // print(
+    //     'event.jsonReceivedMessage.type is: ${event.jsonReceivedMessage!['type']}');
+    // print(
+    //     'event.jsonReceivedMessage.message is: ${event.jsonReceivedMessage!['message']}');
+    // print(
+    //     'event.jsonReceivedMessage.messageTime is: ${event.jsonReceivedMessage!['messageTime']}');
     final receivedMessage =
         individualChatMessageModel!.jsonToEntity(event.jsonReceivedMessage!);
     // print('received message type is ${receivedMessage.type}');

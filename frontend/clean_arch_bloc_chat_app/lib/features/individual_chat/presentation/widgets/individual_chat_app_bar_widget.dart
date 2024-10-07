@@ -1,4 +1,6 @@
+import 'package:clean_arch_bloc_chat_app/features/chats/presentation/bloc/chats_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/bloc/individual_chat_bloc.dart';
+import 'package:clean_arch_bloc_chat_app/features/users/presentation/bloc/users_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/utils/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,9 +55,8 @@ class IndividualChatAppBarWidget extends StatelessWidget
   }
 
   Widget _buildAppBarContent(BuildContext context, dynamic state) {
-    final chatData = state is IndividualChatLoadedAppBarState
-        ? state.currentChatData
-        : (state as IndividualChatLoadedState).currentChat;
+    final chatsBloc = BlocProvider.of<ChatsBloc>(context);
+    final chatState = state as IndividualChatLoadedState;
     return Padding(
       padding: const EdgeInsets.all(0.0),
       child: Row(
@@ -63,6 +64,7 @@ class IndividualChatAppBarWidget extends StatelessWidget
         children: [
           IconButton(
             onPressed: () {
+              chatsBloc.add(ChatsGetAllEvent(user: chatState.currentUser));
               Navigator.of(context).pop();
             },
             icon: const Icon(Icons.arrow_back, size: 30),
@@ -71,7 +73,8 @@ class IndividualChatAppBarWidget extends StatelessWidget
             child: Icon(Icons.person),
           ),
           const SizedBox(width: 10),
-          Text("${chatData!.firstName!} ${chatData.lastName!}"),
+          Text(
+              "${chatState.currentChat!.firstName} ${chatState.currentChat!.lastName!}"),
         ],
       ),
     );

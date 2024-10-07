@@ -57,7 +57,7 @@ async function storeMessageForLater(message) {
 // Send pending messages when the user is back online
 async function sendPendingMessages(receiverId, socket) {
 	const db = client.db("chat_app");
-	const collection = db.collection("messages");
+	const collection = db.collection("pending_messages");
 	const pendingMessages = await collection
 		.find({ receiverId: receiverId, status: "pending" })
 		.toArray();

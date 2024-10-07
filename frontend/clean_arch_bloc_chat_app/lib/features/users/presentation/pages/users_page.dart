@@ -1,4 +1,5 @@
 import 'package:clean_arch_bloc_chat_app/features/home/presentation/pages/home_page.dart';
+import 'package:clean_arch_bloc_chat_app/features/individual_chat/presentation/bloc/individual_chat_bloc.dart';
 import 'package:clean_arch_bloc_chat_app/features/users/domain/entities/users_entity.dart';
 import 'package:clean_arch_bloc_chat_app/features/users/presentation/bloc/users_bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,15 +10,17 @@ import 'package:socket_io_client/socket_io_client.dart' as io;
 class UsersPage extends StatelessWidget {
   const UsersPage({super.key});
 
-  connectToSocket(BuildContext context, UsersBloc usersBloc, UsersEntity user) {
-    final socket = io.io('http://192.168.1.8:3000/', <String, dynamic>{
+  connectToSocket(BuildContext context, UsersEntity? user) {
+    final usersBloc = BlocProvider.of<UsersBloc>(context);
+    final individualChatBloc = BlocProvider.of<IndividualChatBloc>(context);
+    final socket = io.io('http://192.168.1.9:3000/', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
 
     socket.connect();
     socket.onConnect((_) {
-      socket.emit("signin", user.id);
+      socket.emit("signin", user!.id);
     });
 
     usersBloc.add(UsersSocketEvent(socket: socket));
@@ -42,7 +45,7 @@ class UsersPage extends StatelessWidget {
                   title: Text("${user.firstName!} ${user.lastName}"),
                   onTap: () {
                     // print(user);
-                    connectToSocket(context, usersBloc, user);
+                    connectToSocket(context, user);
 
                     Navigator.push(
                       context,

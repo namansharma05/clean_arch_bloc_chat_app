@@ -29,20 +29,6 @@ class IndividualChatBodyWidget extends StatelessWidget {
                   chatMessage: chatMessage,
                 );
               }
-              // return Container(
-              //   decoration: BoxDecoration(
-              //     color: chatMessage.fromMe
-              //         ? Colors.lightGreen.shade900
-              //         : theme().secondaryHeaderColor,
-              //   ),
-              //   child: Column(
-              //     children: [
-              //       Text(chatMessage.message),
-              //       Text(
-              //           '${chatMessage.messageTime.hour}:${chatMessage.messageTime.minute}'),
-              //     ],
-              //   ),
-              // );
             },
           );
         } else if (state is IndividualChatLoadingState) {
