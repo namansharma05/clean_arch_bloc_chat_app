@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 class UsersRepositoryImpl implements UsersRepository {
   getData() async {
-    final url = Uri.parse("http://localhost:3000/get-users");
+    final url = Uri.parse("http://192.168.1.9:3000/get-users");
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);

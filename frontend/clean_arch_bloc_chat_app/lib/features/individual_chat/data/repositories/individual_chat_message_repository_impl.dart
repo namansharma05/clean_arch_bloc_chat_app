@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 class IndividualChatMessageRepositoryImpl
     implements IndividualChatMessageRepository {
   getChatMessages(int? userId, int? chatId) async {
-    final url = Uri.parse("http://localhost:3000/get-user/$userId");
+    final url = Uri.parse("http://192.168.1.9:3000/get-user/$userId");
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
@@ -27,7 +27,7 @@ class IndividualChatMessageRepositoryImpl
   }
 
   addChatMessages(IndividualChatMessageEntity? newChatMessage) async {
-    final url = Uri.parse("http://localhost:3000/add-message");
+    final url = Uri.parse("http://192.168.1.9:3000/add-message");
     final Map<String, dynamic> requestBody = {
       "senderId": newChatMessage!.senderId,
       "receiverId": newChatMessage.receiverId,

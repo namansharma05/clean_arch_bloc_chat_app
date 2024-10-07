@@ -11,7 +11,7 @@ class ChatsRepositoryImpl implements ChatsRepository {
 
   getUserData(int? userId) async {
     print("user id inside chats repository impl: ${userId}");
-    final url = Uri.parse("http://localhost:3000/get-user/$userId");
+    final url = Uri.parse("http://192.168.1.9:3000/get-user/$userId");
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
